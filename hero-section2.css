@@ -95,3 +95,22 @@
       height: 250px;
   }
 }
+
+@media (max-width: 380px) {
+  .trading-styles__image svg,
+  .trading-styles__image img {
+    width: 330px !important;  /* یا هر مقدار که دوست دارید */
+    height: auto !important;
+    max-width: 80vw;
+    display: block;
+    margin: 0 auto;
+  }
+  .trading-styles__image {
+    height: 250px !important;
+    min-height: unset !important;
+    padding: 12px 0;
+  }
+  .trading-styles__card {
+    padding-bottom: 10px;
+  }
+}
