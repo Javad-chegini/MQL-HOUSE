@@ -5,22 +5,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextBtn = document.getElementById('nextBtn');
     const prevBtn = document.getElementById('prevBtn');
     const submitBtn = document.getElementById('submitBtn');
-    const skipBtn = document.getElementById('skipBtn'); 
+    const skipBtn = document.getElementById('skipBtn');
     const indBox = document.querySelector('.indicator-params');
     const timeFrameSel = document.getElementById('timeFrame');
     let current = 0;
-    let isSkipped = false; 
-  
-    
+    let isSkipped = false;
     const indicatorMap = {
         'RSI': ['بازه زمانی (Period)', null],
         'MACD': ['EMA کوتاه (Fast)', 'EMA بلند (Slow)'],
         'EMA': ['دوره EMA', null],
         'Bollinger Bands': ['دوره', 'انحراف معیار (StdDev)'],
+        'سایر': [null, null],
         'other': [null, null]
     };
-  
-    
     const clearError = (group) => {
         group.classList.remove('has-error');
         const msg = group.querySelector('.error-message');
@@ -29,14 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
             msg.textContent = '';
         }
     };
-  
     const showError = (group, text) => {
         group.classList.add('has-error');
         const msg = group.querySelector('.error-message');
         if (msg) {
             msg.textContent = text;
             msg.style.display = 'block';
-            
             const input = group.querySelector('input, select, textarea');
             if (input) {
                 input.classList.add('shake');
@@ -44,13 +39,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     };
-  
-    
     const validateStep = (idx) => {
         let valid = true;
         const groups = steps[idx].querySelectorAll('.form-group');
         groups.forEach(group => clearError(group));
-        
         if (idx === 2) {
             const riskMgmtRadios = steps[idx].querySelectorAll('input[name="riskManagement"]');
             const riskMgmtSelected = Array.from(riskMgmtRadios).find(r => r.checked);
@@ -78,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             return valid;
         }
-        
         for (const group of groups) {
             const reqs = group.querySelectorAll('[required]');
             if (!reqs.length) continue;
@@ -92,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (reqs[0].type === 'checkbox') {
                 const checkboxName = reqs[0].name;
                 if (
-                  checkboxName === 'activityTimeEnabled' || 
+                  checkboxName === 'activityTimeEnabled' ||
                   checkboxName === 'tradeLimitEnabled' ||
                   checkboxName === 'maxDrawdownEnabled' ||
                   checkboxName === 'forbiddenTimesEnabled' ||
@@ -133,12 +124,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return valid;
     };
-  
-    
     const initializeStep4Fields = () => {
         const hiddenFields = [
             '.activity-time-fields',
-            '.trade-limit-fields', 
+            '.trade-limit-fields',
             '.trade-value-fields',
             '.max-drawdown-field',
             '.forbidden-times-fields',
@@ -156,8 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     };
-  
-    
     const showStep = (idx) => {
         document.documentElement.style.setProperty('--current-step', idx);
         steps.forEach((s, i) => s.classList.toggle('active', i === idx));
@@ -168,14 +155,11 @@ document.addEventListener('DOMContentLoaded', () => {
         prevBtn.style.display = idx === 0 ? 'none' : 'inline-block';
         nextBtn.style.display = (idx === steps.length - 1 && !isSkipped) ? 'none' : 'inline-block';
         submitBtn.style.display = (idx === steps.length - 1 || (idx === 3 && isSkipped)) ? 'inline-block' : 'none';
-        skipBtn.style.display = idx === 0 ? 'inline-block' : 'none'; 
-  
-        if (idx === 3) { 
+        skipBtn.style.display = idx === 0 ? 'inline-block' : 'none';
+        if (idx === 3) {
             initializeStep4Fields();
         }
-  
         if (idx === 3 && isSkipped) {
-            
             document.querySelectorAll('.step:nth-child(4) .form-group').forEach(group => {
                 const label = group.querySelector('label');
                 if (label && (label.textContent.includes('شرایط ورود') ||
@@ -186,16 +170,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     group.style.display = 'none';
                 }
             });
-            nextBtn.style.display = 'none'; 
+            nextBtn.style.display = 'none';
         } else if (idx === 3) {
-            
             document.querySelectorAll('.step:nth-child(4) .form-group').forEach(group => {
                 group.style.display = 'block';
             });
         }
     };
-  
-    
     const nextStep = () => {
         if (!validateStep(current)) return;
         if (current < steps.length - 1) {
@@ -204,27 +185,22 @@ document.addEventListener('DOMContentLoaded', () => {
             if (current === steps.length - 1) collectSummary();
         }
     };
-  
     const prevStep = () => {
         if (current > 0) {
             if (isSkipped && current === 3) {
-                current = 0; 
-                isSkipped = false; 
+                current = 0;
+                isSkipped = false;
             } else {
                 current--;
             }
             showStep(current);
         }
     };
-  
-    
     const skipToStep4 = () => {
-        current = 3; 
-        isSkipped = true; 
+        current = 3;
+        isSkipped = true;
         showStep(current);
     };
-  
-    
     const collectSummary = () => {
         const ul = document.querySelector('#summary ul');
         ul.innerHTML = '';
@@ -235,23 +211,158 @@ document.addEventListener('DOMContentLoaded', () => {
             li.textContent = `${key}: ${val}`;
             ul.appendChild(li);
         }
+    };    
+    const collectFormData = () => {
+        const formData = new FormData(form);
+        const data = {};
+        for (const [key, value] of formData.entries()) {
+            if (key === 'confirm') continue;
+            data[key] = value;
+        }
+        data.title = `ربات معاملاتی ${data.strategy || 'سفارشی'}`;
+        data.description = generateDescription(data);
+        data.tools_description = generateToolsDescription(data);
+        return data;
     };
-  
-    
+    const generateDescription = (data) => {
+        let desc = "جزئیات ربات معاملاتی:";
+        if (data.platform) desc += `📊 پلتفرم: ${data.platform}
+`;
+        if (data.language) desc += `💻 زبان: ${data.language}
+`;
+        if (data.strategy) desc += `⚡ استراتژی: ${data.strategy}
+`;
+        if (data.market) desc += `🏪 مارکت: ${data.market}
+`;
+        if (data.timeFrame) desc += `⏰ تایم‌فریم: ${data.timeFrame}
+`;
+        if (data.indicator) {
+            desc += `
+📈 اندیکاتور: ${data.indicator}
+`;
+            if (data.indicatorParam1) desc += `🔧 پارامتر ۱: ${data.indicatorParam1}
+`;
+            if (data.indicatorParam2) desc += `🔧 پارامتر ۲: ${data.indicatorParam2}
+`;
+            if (data.overbought) desc += `📊 Overbought: ${data.overbought}
+`;
+            if (data.oversold) desc += `📊 Oversold: ${data.oversold}
+`;
+        }
+        if (data.slTpType) {
+            desc += `
+💰 نوع SL/TP: ${data.slTpType}
+`;
+            if (data.stopLoss) desc += `🛑 Stop Loss: ${data.stopLoss} پیپ
+`;
+            if (data.takeProfit) desc += `🎯 Take Profit: ${data.takeProfit} پیپ
+`;
+        }
+        if (data.riskManagement) {
+            desc += `
+📊 مدیریت ریسک: ${data.riskManagement}
+`;
+            if (data.riskPercentage) desc += `📈 درصد ریسک: ${data.riskPercentage}%
+`;
+            if (data.fixedLot) desc += `📏 حجم ثابت: ${data.fixedLot} لات
+`;
+        }
+        if (data.activityTimeEnabled === 'on') {
+            desc += `
+🕐 ساعت فعالیت: ${data.startTime} تا ${data.endTime}
+`;
+        }
+        if (data.tradeLimitEnabled === 'on') {
+            desc += `
+📊 محدودیت معاملات: ${data.minTrades} تا ${data.maxTrades} در ${data.tradeTimeFrame}
+`;
+        }
+        if (data.trailingStop === 'on') {
+            desc += `
+🔄 Trailing Stop: فعال
+`;
+            if (data.trailingStopDescription) desc += `توضیحات: ${data.trailingStopDescription}
+`;
+        }
+        if (data.riskFree === 'on') {
+            desc += `
+🔒 Risk-Free: فعال
+`;
+            if (data.riskFreeDescription) desc += `توضیحات: ${data.riskFreeDescription}
+`;
+        }
+        if (data.maxDrawdownEnabled === 'on') {
+            desc += `
+📉 حداکثر Drawdown: ${data.maxDrawdown}%
+`;
+        }
+        if (data.forbiddenTimesEnabled === 'on') {
+            desc += `
+⛔ زمان‌های ممنوعه: ${data.forbiddenTimes}
+`;
+        }
+        if (data.entryConditions) {
+            desc += `
+🎯 شرایط ورود:
+${data.entryConditions}
+`;
+        }
+        if (data.exitConditions) {
+            desc += `
+🚪 شرایط خروج:
+${data.exitConditions}
+`;
+        }
+        if (data.generalDescription) {
+            desc += `
+📝 توضیحات کلی:
+${data.generalDescription}
+`;
+        }
+        return desc;
+    };
+    const generateToolsDescription = (data) => {
+        const tools = [];
+        if (data.platform) tools.push(data.platform);
+        if (data.language) tools.push(data.language);
+        if (data.indicator) tools.push(data.indicator);
+        if (data.strategy) tools.push(`${data.strategy} Strategy`);
+        return tools.length > 0 ? tools.join(', ') : 'ابزارهای استاندارد معاملاتی';
+    };
+    const submitForm = async () => {
+        try {
+            const orderData = collectFormData();
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'در حال ارسال...';
+            const result = await subOrder(orderData);
+            if (result.error) {
+                alert(`خطا در ارسال: ${result.msg || result.error}`);
+            } else {
+                alert('سفارش با موفقیت ثبت شد!');
+                form.reset();
+                current = 0;
+                showStep(0);
+            }
+        } catch (error) {
+            console.error('خطا در ارسال فرم:', error);
+            alert('خطا در اتصال به سرور');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'ارسال';
+        }
+    };
     if (indBox) {
         indBox.style.display = 'none';
         indBox.querySelectorAll('input').forEach(i => {
             i.disabled = true;
             i.parentElement.style.display = 'block';
         });
-  
         const indRadios = document.querySelectorAll('input[name="indicator"]');
         indRadios.forEach(radio => {
             radio.addEventListener('change', () => {
                 const selectedValue = Array.from(indRadios).find(r => r.checked)?.value || 'other';
                 const [p1, p2] = indicatorMap[selectedValue] || [null, null];
                 indBox.style.display = (!p1 && !p2) ? 'none' : 'block';
-  
                 const rsiFields = document.querySelectorAll('.rsi-specific');
                 if (selectedValue === 'RSI') {
                     rsiFields.forEach(field => {
@@ -266,7 +377,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         field.querySelector('input').required = false;
                     });
                 }
-  
                 if (p1 || p2) {
                     const groups = indBox.querySelectorAll('.form-group:not(.rsi-specific)');
                     const g1 = groups[0], g2 = groups[1];
@@ -277,6 +387,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (p1) {
                         g1.querySelector('label').textContent = p1;
                         inp1.placeholder = p1;
+                        inp1.name = 'indicatorParam1';
                     }
                     g2.style.display = p2 ? 'block' : 'none';
                     inp2.disabled = !p2;
@@ -284,13 +395,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (p2) {
                         g2.querySelector('label').textContent = p2;
                         inp2.placeholder = p2;
+                        inp2.name = 'indicatorParam2';
                     }
                 }
             });
         });
     }
-  
-    
     const slTpTypeRadios = document.querySelectorAll('input[name="slTpType"]');
     const slTpFields = document.querySelectorAll('.sl-tp-values');
     slTpTypeRadios.forEach(radio => {
@@ -310,8 +420,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-  
-    
     const activityTimeCheckbox = document.querySelector('input[name="activityTimeEnabled"]');
     const activityTimeFields = document.querySelector('.activity-time-fields');
     if (activityTimeCheckbox) {
@@ -331,12 +439,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    
     const tradeLimitCheckbox = document.querySelector('input[name="tradeLimitEnabled"]');
     const tradeLimitFields = document.querySelector('.trade-limit-fields');
     const tradeValueFields = document.querySelector('.trade-value-fields');
     const tradeTimeFrameSelect = document.querySelector('select[name="tradeTimeFrame"]');
-  
     if (tradeLimitCheckbox) {
         tradeLimitCheckbox.addEventListener('change', () => {
             if (tradeLimitCheckbox.checked) {
@@ -355,7 +461,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-  
     if (tradeTimeFrameSelect) {
         tradeTimeFrameSelect.addEventListener('change', () => {
             if (tradeTimeFrameSelect.value) {
@@ -373,8 +478,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-  
-    
     const riskManagementRadios = document.querySelectorAll('input[name="riskManagement"]');
     const riskPercentageField = document.querySelector('.risk-percentage-field');
     const riskFixedField = document.querySelector('.risk-fixed-field');
@@ -399,13 +502,10 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
-  
-    
     const trailingStopCheckbox = document.querySelector('input[name="trailingStop"]');
     const riskFreeCheckbox = document.querySelector('input[name="riskFree"]');
     const trailingStopDetails = document.querySelector('.trailing-stop-details');
     const riskFreeDetails = document.querySelector('.risk-free-details');
-  
     if (trailingStopCheckbox) {
         trailingStopCheckbox.addEventListener('change', () => {
             if (trailingStopCheckbox.checked) {
@@ -432,8 +532,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-  
-    
     const forbiddenTimesCheckbox = document.querySelector('input[name="forbiddenTimesEnabled"]');
     const forbiddenTimesFields = document.querySelector('.forbidden-times-fields');
     if (forbiddenTimesCheckbox) {
@@ -453,8 +551,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-  
-    
     const maxDrawdownCheckbox = document.querySelector('input[name="maxDrawdownEnabled"]');
     const maxDrawdownField = document.querySelector('.max-drawdown-field');
     if (maxDrawdownCheckbox) {
@@ -470,7 +566,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    
     const timeFrameRadios = document.querySelectorAll('input[name="timeFrame"]');
     timeFrameRadios.forEach(radio => {
         radio.addEventListener('change', () => {
@@ -482,8 +577,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-
-    
     document.querySelectorAll('.option-label input').forEach(inp => {
         inp.addEventListener('change', () => {
             const name = inp.name;
@@ -496,8 +589,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-  
-    
     nextBtn.addEventListener('click', (e) => {
         e.preventDefault();
         nextStep();
@@ -513,23 +604,15 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         if (validateStep(current)) {
-            alert('اطلاعات با موفقیت ارسال شد!');
+            submitForm();
         }
     });
-  
-    
+    submitBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (validateStep(current)) {
+            submitForm();
+        }
+    });
     initializeStep4Fields();
-    
     showStep(0);
-  });
-  
-  const indicatorMap = {
-    'RSI': ['بازه زمانی (Period)', null],
-    'MACD': ['EMA کوتاه (Fast)', 'EMA بلند (Slow)'],
-    'EMA': ['دوره EMA', null],
-    'Bollinger Bands': ['دوره', 'انحراف معیار (StdDev)'],
-    
-    'سایر': [null, null],
-    
-    'other': [null, null]
-  };
+});
