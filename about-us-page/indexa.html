@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>درباره ما - MQL HOUSE | خانه الگو تریدینگ</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="stylesa.css">
+    <link rel="stylesheet" href="../footer.css">
+</head>
+<body>
+    <header class="header" id="header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <div class="logo-wrapper" id="logo">
+                    <div class="logo-icon">
+                        <svg xmlns="" viewBox="0 0 200 200">
+                            <!-- پس‌زمینه مربع با گوشه‌های گرد -->
+                            <rect x="10" y="10" width="180" height="180" rx="40" ry="40" fill="#1a5fb4" />
+                            
+                            <!-- نمودار خطی -->
+                            <g stroke="white" stroke-width="6" fill="none">
+                                <!-- خط افقی پایین -->
+                                <line x1="50" y1="150" x2="150" y2="150" stroke-linecap="round" />
+                                
+                                <!-- خط عمودی سمت چپ -->
+                                <line x1="50" y1="50" x2="50" y2="150" stroke-linecap="round" />
+                                
+                                <!-- نمودار خطی صعودی -->
+                                <polyline points="70,130 90,110 110,120 130,80 150,60" 
+                                          stroke-linejoin="round" 
+                                          stroke-linecap="round" />
+                            </g>
+                            
+                            <!-- نقاط داده -->
+                            <g fill="white">
+                                <circle cx="70" cy="130" r="4" />
+                                <circle cx="90" cy="110" r="4" />
+                                <circle cx="110" cy="120" r="4" />
+                                <circle cx="130" cy="80" r="4" />
+                                <circle cx="150" cy="60" r="4" />
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="logo-text">
+                        <div class="logo-title">MQL HOUSE</div>
+                        <div class="logo-subtitle">خانه الگو تریدینگ</div>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="nav-wrapper">
+                    <ul class="nav-menu" id="navMenu">
+                        <div class="nav-indicator" id="navIndicator"></div>
+                        <li class="nav-item">
+                            <a href="#home" class="nav-link " data-nav="home">صفحه اصلی</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#portfolio" class="nav-link" data-nav="portfolio">نمونه کارها</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#about" class="nav-link active" data-nav="about">درباره ما</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="contact-us-page/indexc.html" class="nav-link" data-nav="contact">تماس با ما</a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Auth Section -->
+                <div class="auth-section">
+                    <button class="theme-toggle" id="themeToggle">
+                        <svg class="sun-icon" viewBox="0 0 24 24">
+                            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                        </svg>
+                    </button>
+                    
+                    <div class="auth-buttons">
+                        <a href="login-page/indexl.html" class="btn btn-login">
+                            <!-- آیکون ورود جدید-->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                                <polyline points="10 17 15 12 10 7"/>
+                                <line x1="15" y1="12" x2="3" y2="12"/>
+                            </svg>
+                            <span>ورود</span>
+                        </a>
+                        <a href="signup-page/indexs.html" class="btn btn-register">
+                            <!-- آیکون ثبت‌نام جدید  -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                            <span>ثبت نام</span>
+                        </a>
+                    </div>
+
+                    <button class="hamburger" id="hamburger">
+                        <div class="hamburger-lines">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul class="mobile-nav">
+            <li><a href="#home" class="nav-link">صفحه اصلی</a></li>
+            <li><a href="#portfolio" class="nav-link">نمونه کارها</a></li>
+            <li><a href="#about" class="nav-link">درباره ما</a></li>
+            <li><a href="indexc.html" class="nav-link">تماس با ما</a></li>
+            <li class="mobile-auth">
+                <a href="login-page/indexl.html" class="btn btn-login">
+                    <!-- آیکون ورود جدید برای موبایل -->
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                        <polyline points="10 17 15 12 10 7"/>
+                        <line x1="15" y1="12" x2="3" y2="12"/>
+                    </svg>
+                    <span>ورود</span>
+                </a>
+                <a href="signup-page/indexs.html" class="btn btn-register">
+                    <!-- آیکون ثبت‌نام جدید برای موبایل -->
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    <span>ثبت نام</span>
+                </a>
+            </li>
+            <li>
+                <button class="mobile-theme-toggle" id="mobileThemeToggle">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                    </svg>
+                </button>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <main class="content about-page">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="about-hero" id="about">
+                <div class="hero-content">
+                    <h1 class="hero-title">درباره MQL HOUSE</h1>
+                    <div class="hero-subtitle">
+                        <span class="gradient-text">خانه الگو تریدینگ</span>
+                    </div>
+                    <p class="hero-description">
+                        ما در MQL HOUSE با بیش از ۵ سال تجربه در زمینه الگوتریدینگ، تیمی متشکل از بهترین برنامه‌نویسان و تحلیلگران مالی هستیم. 
+                        هدف ما تبدیل ایده‌های شما به ربات‌های هوشمند و سودآور است.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Mission & Vision -->
+            <section class="mission-vision">
+                <div class="mission-grid">
+                    <div class="mission-card">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+                                <path d="M2 17L12 22L22 17"/>
+                                <path d="M2 12L12 17L22 12"/>
+                            </svg>
+                        </div>
+                        <h3>مأموریت ما</h3>
+                        <p>ارائه بهترین خدمات طراحی و توسعه الگوهای تریدینگ با استفاده از جدیدترین تکنولوژی‌ها و روش‌های علمی.</p>
+                    </div>
+                    <div class="mission-card">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                        </div>
+                        <h3>چشم‌انداز ما</h3>
+                        <p>تبدیل شدن به پیشرو در صنعت الگوتریدینگ ایران و ارائه راهکارهای نوآورانه برای موفقیت در بازارهای مالی.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Team Section -->
+            <section class="team-section">
+                <div class="section-header">
+                    <h2 class="section-title">تیم ما</h2>
+                    <p class="section-description">تیمی از متخصصان با تجربه در خدمت شما</p>
+                </div>
+
+                <div class="team-grid">
+                    <!-- Team Member 1 -->
+                    <div class="team-card">
+                        <div class="member-avatar">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face" alt="علی محمدی">
+                            <div class="avatar-overlay">
+                                <div class="social-links">
+                                    <a href="#" class="social-link">
+                                        <svg viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                                        </svg>
+                                    </a>
+                                    <a href="#" class="social-link">
+                                        <svg viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name">علی محمدی</h3>
+                            <p class="member-role">مدیر عامل و برنامه‌نویس ارشد MQL</p>
+                            <p class="member-description">بیش از ۷ سال تجربه در برنامه‌نویسی MQL و طراحی سیستم‌های تریدینگ خودکار</p>
+                        </div>
+                    </div>
+
+                    <!-- Team Member 2 -->
+                    <div class="team-card">
+                        <div class="member-avatar">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=300&h=300&fit=crop&crop=face" alt="سارا احمدی">
+                            <div class="avatar-overlay">
+                                <div class="social-links">
+                                    <a href="#" class="social-link">
+                                        <svg viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                                        </svg>
+                                    </a>
+                                    <a href="#" class="social-link">
+                                        <svg viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name">سارا احمدی</h3>
+                            <p class="member-role">تحلیلگر مالی و استراتژیست</p>
+                            <p class="member-description">متخصص در تحلیل تکنیکال و بنیادی بازارهای مالی با ۵ سال سابقه کاری</p>
+                        </div>
+                    </div>
+
+                    <!-- Team Member 3 -->
+                    <div class="team-card">
+                        <div class="member-avatar">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face" alt="حسین رضایی">
+                            <div class="avatar-overlay">
+                                <div class="social-links">
+                                    <a href="#" class="social-link">
+                                        <svg viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                                        </svg>
+                                    </a>
+                                    <a href="#" class="social-link">
+                                        <svg viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name">حسین رضایی</h3>
+                            <p class="member-role">توسعه‌دهنده Python و AI</p>
+                            <p class="member-description">متخصص در پیاده‌سازی هوش مصنوعی و یادگیری ماشین برای بازارهای مالی</p>
+                        </div>
+                    </div>
+
+                    <!-- Team Member 4 -->
+                    <div class="team-card">
+                        <div class="member-avatar">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&fit=crop&crop=face" alt="مریم کریمی">
+                            <div class="avatar-overlay">
+                                <div class="social-links">
+                                    <a href="#" class="social-link">
+                                        <svg viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                                        </svg>
+                                    </a>
+                                    <a href="#" class="social-link">
+                                        <svg viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name">مریم کریمی</h3>
+                            <p class="member-role">UI/UX Designer و مدیر پروژه</p>
+                            <p class="member-description">طراح رابط کاربری و تجربه کاربری با تمرکز بر سادگی و کارایی</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Statistics Section -->
+            <section class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">پروژه موفق</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">5+</div>
+                        <div class="stat-label">سال تجربه</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">مشتری راضی</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">پشتیبانی</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+          <!-- بخش درباره ما -->
+          <div class="footer-section footer-about">
+            <div class="logo-wrapper">
+              <div class="logo-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+                    <rect x="10" y="10" width="180" height="180" rx="40" ry="40" fill="#1a5fb4" />
+                    
+                    <!-- نمودار خطی -->
+                    <g stroke="white" stroke-width="6" fill="none">
+                        <!-- خط افقی پایین -->
+                        <line x1="50" y1="150" x2="150" y2="150" stroke-linecap="round" />
+                        
+                        <!-- خط عمودی سمت چپ -->
+                        <line x1="50" y1="50" x2="50" y2="150" stroke-linecap="round" />
+                        
+                        <!-- نمودار خطی صعودی -->
+                        <polyline points="70,130 90,110 110,120 130,80 150,60" 
+                                  stroke-linejoin="round" 
+                                  stroke-linecap="round" />
+                    </g>
+                    
+                    <!-- نقاط داده -->
+                    <g fill="white">
+                        <circle cx="70" cy="130" r="4" />
+                        <circle cx="90" cy="110" r="4" />
+                        <circle cx="110" cy="120" r="4" />
+                        <circle cx="130" cy="80" r="4" />
+                        <circle cx="150" cy="60" r="4" />
+                    </g>
+                </svg>              </div>
+              <div class="logo-text">
+                <h2 class="logo-title">MQL HOUSE</h2>
+                <p class="logo-subtitle">خانه الگو تریدینگ</p>
+              </div>
+            </div>
+            <p class="footer-desc">
+              ارائه‌دهنده بهترین خدمات طراحی و توسعه ماشین های پولساز و راهکارهای تجارت آنلاین.
+            </p>
+          </div>
+          <!-- بخش لینک‌های سریع -->
+          <div class="footer-section footer-links">
+            <h3 class="footer-title">لینک‌های مفید</h3>
+            <ul class="footer-nav">
+              <li><a href="#home">صفحه اصلی</a></li>
+              <li><a href="#portfolio">نمونه کارها</a></li>
+              <li><a href="#about">درباره ما</a></li>
+              <li><a href="contact-us-page/indexc.html">تماس با ما</a></li>
+            </ul>
+          </div>
+          <!-- بخش اطلاعات تماس -->
+          <div class="footer-section footer-contact">
+            <h3 class="footer-title">اطلاعات تماس</h3>
+            <p>تهران، خیابان مثال، پلاک ۱۲۳</p>
+            <p>تلفن: ۰۲۱-۱۲۳۴۵۶۷۸</p>
+            <p>ایمیل: info@mqlhouse.ir</p>
+          </div>
+          <!-- بخش شبکه‌های اجتماعی -->
+          <div class="footer-section footer-social">
+            <h3 class="footer-title">ما را دنبال کنید</h3>
+            <ul class="social-list">
+                <li><a href="https://instagram.com/yourpage" target="_blank" aria-label="اینستاگرام">
+                    <!-- SVG آیکون اینستاگرام -->
+                    <svg viewBox="0 0 24 24" class="icon-social">
+                    <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm8.5 2a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm-4.25 1.5a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z"/>
+                    </svg>
+                </a></li>
+                <li>
+                    <a href="" target="_blank" aria-label="تلگرام">
+                      <svg
+                        xmlns=""
+                        class="icon-social"
+                        viewBox="0 0 24 24"
+                      >
+                        <!-- پس‌زمینه دایره‌ای با رنگ رسمی تلگرام -->
+                        <circle cx="12" cy="12" r="12" fill="#0088cc"/>
+                        <!-- نماد کاغذ-هواپیما -->
+                        <path
+                          d="M5.3 12l13.4-5.6c.5-.2 1 .2.8.7l-2.3 9.5c-.1.4-.5.6-.9.4l-3.3-1.5-1.6 1.6c-.2.2-.4.4-.7.4l.3-3.8 6.1-5.5c.3-.2.2-.6-.1-.7L5.3 12z"
+                          fill="#fff"
+                        />
+                      </svg>
+                    </a>
+                </li> 
+                <li><a href="" target="_blank" aria-label="فیسبوک">
+                    <!-- SVG آیکون فیسبوک -->
+                    <svg viewBox="0 0 24 24" class="icon-social">
+                    <path d="M22 12a10 10 0 1 0-11.5 9.87v-6.99h-2.3v-2.88h2.3V9.83c0-2.27 1.36-3.52 3.44-3.52.99 0 2.03.18 2.03.18v2.23h-1.14c-1.12 0-1.47.7-1.47 1.42v1.7h2.5l-.4 2.88h-2.1v6.99A10 10 0 0 0 22 12z"/>
+                    </svg>
+                </a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-copy">
+          <p>© تمامی حقوق برای MQL HOUSE محفوظ است ۲۰۲۴</p>
+        </div>
+      </footer>  
+      <script src="indexa.js" defer></script>
+</body>
+</html>
