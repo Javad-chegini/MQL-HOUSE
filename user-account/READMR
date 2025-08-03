@@ -1,0 +1,289 @@
+# MQL HOUSE - API Documentation
+
+## احراز هویت (Authentication)
+
+### ورود کاربر
+```http
+POST /api/auth/login
+Content-Type: application/json
+
+{
+    "email": "ali.ahmadi@example.com",
+    "password": "password123"
+}
+
+**پاسخ موفق:**
+json
+{
+    "success": true,
+    "data": {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "user": {
+        "id": 1,
+        "name": "علی",
+        "surname": "احمدی",
+        "email": "ali.ahmadi@example.com",
+        "phone": "09123456789",
+        "bio": "توسعه‌دهنده فرانت‌اند",
+        "avatar": "path/to/avatar.jpg"
+    }
+    }
+}
+
+### خروج کاربر
+http
+POST /api/auth/logout
+Authorization: Bearer {token}
+
+## مدیریت پروفایل
+
+### دریافت اطلاعات پروفایل
+http
+GET /api/profile
+Authorization: Bearer {token}
+
+### بروزرسانی پروفایل
+http
+PUT /api/profile
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+    "name": "علی",
+    "surname": "احمدی", 
+    "email": "ali.ahmadi@example.com",
+    "phone": "09123456789",
+    "bio": "توسعه‌دهنده فرانت‌اند"
+}
+
+### آپلود تصویر پروفایل
+http
+POST /api/profile/avatar
+Authorization: Bearer {token}
+Content-Type: multipart/form-data
+
+file: [تصویر JPG/PNG]
+
+## مدیریت مدارک
+
+### دریافت لیست مدارک
+http
+GET /api/documents
+Authorization: Bearer {token}
+
+**پاسخ:**
+json
+{
+    "success": true,
+    "data": [
+    {
+        "id": 1,
+        "title": "مدرک کارشناسی طراحی گرافیک",
+        "description": "دانشگاه تهران",
+        "issue_date": "1400/03/15",
+        "file_url": "path/to/document.jpg",
+        "created_at": "2023-01-01T00:00:00Z"
+    }
+    ]
+}
+
+### افزودن مدرک جدید
+http
+POST /api/documents
+Authorization: Bearer {token}
+Content-Type: multipart/form-data
+
+title: "نام مدرک"
+description: "توضیحات"
+issue_date: "1402/01/01"
+file: [فایل JPG/PNG/PDF - حداکثر 5MB]
+
+### حذف مدرک
+http
+DELETE /api/documents/{document_id}
+Authorization: Bearer {token}
+
+## مدیریت اعلانات
+
+### دریافت اعلانات
+http
+GET /api/notifications?page=1&per_page=10&filter=all&search=
+Authorization: Bearer {token}
+
+**پارامترهای Query:**
+- `page`: شماره صفحه (پیش‌فرض: 1)
+- `per_page`: تعداد آیتم تو هر صفحه (پیش‌فرض: 10)
+- `filter`: فیلتر (all, unread, read, today, week, month)
+- `search`: جستجو در عنوان و متن
+
+**پاسخ:**
+json
+{
+    "success": true,
+    "data": {
+    "notifications": [
+        {
+            "id": 1,
+            "title": "سفارش جدید دریافت شد",
+            "text": "سفارش EA جدید از طرف علی احمدی دریافت شده است",
+            "type": "سفارش",
+            "unread": true,
+            "created_at": "2023-12-01T10:00:00Z"
+        }
+    ],
+    "pagination": {
+        "current_page": 1,
+        "total_pages": 5,
+        "total_items": 45,
+        "per_page": 10
+    },
+    "unread_count": 3
+    }
+}
+
+### علامت‌گذاری تک نوتیف به عنوان خوانده شده
+http
+PUT /api/notifications/{notification_id}/read
+Authorization: Bearer {token}
+
+### علامت‌گذاری همه نوتیف به عنوان خوانده شده
+http
+PUT /api/notifications/mark-all-read
+Authorization: Bearer {token}
+
+### حذف نوتیف
+http
+DELETE /api/notifications/{notification_id}
+Authorization: Bearer {token}
+
+### پاک کردن همه نوتیف ها
+http
+DELETE /api/notifications/clear-all
+Authorization: Bearer {token}
+
+## تنظیمات کاربر
+
+### دریافت تنظیمات
+http
+GET /api/settings
+Authorization: Bearer {token}
+
+### بروزرسانی تنظیمات
+http
+PUT /api/settings
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+    "email_notifications": true,
+    "public_profile": false,
+    "theme": "dark"
+}
+
+## کدهای خطا
+
+| کد | توضیحات |
+|----|---------------|
+| 200 | موفقیت‌آمیز      |
+| 400 | درخواست نامعتبر  |
+| 401 | احراز هویت ناموفق|
+| 403 | عدم دسترسی     |
+| 404 | یافت نشد       |
+| 422 | خطای اعتبارسنجی |
+| 500 | خطای سرور     |
+
+## ساختار پاسخ‌های خطا
+
+json
+{
+    "success": false,
+    "message": "پیام خطا",
+    "errors": {
+    "field_name": ["خطای اعتبارسنجی"]
+    }
+}
+
+## محدودیت‌های فایل
+
+- **تصاویر پروفایل**: JPG, PNG - حداکثر 2MB
+- **مدارک**: JPG, PNG, PDF - حداکثر 5MB
+- **فرمت‌های پذیرفته شده**: `image/jpeg`, `image/png`, `application/pdf`
+
+## Headers مورد نیاز
+
+برای تمام درخواست‌های محافظت شده:
+
+Authorization: Bearer {your_jwt_token}
+Content-Type: application/json
+Accept: application/json
+
+برای آپلود فایل:
+
+Authorization: Bearer {your_jwt_token}
+Content-Type: multipart/form-data
+
+## نمونه کد  برای فراخوانی API
+
+javascript
+// تابع کمکی برای ارسال درخواست
+async function apiRequest(endpoint, options = {}) {
+    const token = localStorage.getItem('userToken');
+    const defaultOptions = {
+    headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json',
+        ...options.headers
+    }
+    };
+    
+    const response = await fetch(`/api${endpoint}`, {
+    ...defaultOptions,
+    ...options
+    });
+    
+    return response.json();
+}
+
+// نمونه استفاده
+async function updateProfile(profileData) {
+    return await apiRequest('/profile', {
+    method: 'PUT',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(profileData)
+    });
+}
+
+## نکات مهم برای پیاده‌سازی
+
+1. **امنیت**: همیشه از JWT token برای احراز هویت استفاده کن
+2. **اعتبارسنجی**: تمام فیلدهای ورودی را اعتبارسنجی کنید
+3. **فایل‌ها**: اندازه و نوع فایل‌ها را بررسی کنید
+4. **Rate Limiting**: محدودیت تعداد درخواست در نظر بگیرید
+5. **CORS**: تنظیمات مناسب برای Cross-Origin requests
+6. **پایگاه داده**: از prepared statements برای جلوگیری از SQL injection استفاده کنید
+
+## محیط توسعه
+
+bash
+# نصب dependencies
+npm install
+
+# اجرای سرور توسعه
+npm run dev
+
+# اجرای تست‌ها
+npm test
+
+## متغیرهای محیطی (.env)
+
+
+JWT_SECRET=your_secret_key_here
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=mql_house
+DB_USER=your_db_user
+DB_PASS=your_db_password
+UPLOAD_PATH=./uploads
+MAX_FILE_SIZE=5242880
