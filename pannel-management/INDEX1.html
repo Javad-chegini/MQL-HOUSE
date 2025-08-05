@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل مدیریت</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../fontawesome/css/all.min.css">
+    <script src="../apiHandeler.js"></script>
+    <script src="script.js"></script>
+</head>
+<body>
+    
+    <header class="admin-header">
+        <div class="header-content">
+            <div class="header-left">
+                <h1><i class="fas fa-crown"></i> پنل مدیریت</h1>
+            </div>
+            <div class="header-right">
+                <div class="admin-info">
+                    <span>خوش آمدید، مدیر عزیز</span>
+                    <button class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        خروج
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    
+    <aside class="sidebar">
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="nav-item active" data-section="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>داشبورد</span>
+                </li>
+                <li class="nav-item" data-section="users">
+                    <i class="fas fa-users"></i>
+                    <span>مدیریت کاربران</span>
+                </li>
+                <li class="nav-item" data-section="orders">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>مدیریت سفارش‌ها</span>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    
+    <main class="main-content">
+        
+        <section id="dashboard" class="content-section active">
+            <div class="page-header">
+                <h2>داشبورد</h2>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>0</h3>
+                        <p>کل کاربران</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>0</h3>
+                        <p>کل سفارش‌ها</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>0</h3>
+                        <p>سفارش‌های تکمیل شده</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>0</h3>
+                        <p>سفارش‌های در انتظار</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-header">
+                <h3>آمار کلی سیستم</h3>
+            </div>
+        </section>
+
+        
+        <section id="users" class="content-section">
+            <div class="page-header">
+                <h2>مدیریت کاربران</h2>
+                <div class="page-actions">
+                    <button class="btn btn-primary" id="addUserBtn">
+                        <i class="fas fa-plus"></i>
+                        افزودن کاربر جدید
+                    </button>
+                </div>
+            </div>
+
+            <div class="filters-bar">
+                <div class="search-box">
+                    <input type="text" placeholder="جستجو...">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="filter-options">
+                    <select>
+                        <option value="">همه وضعیت‌ها</option>
+                        <option value="active">فعال</option>
+                        <option value="inactive">غیرفعال</option>
+                        <option value="suspended">مسدود</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>آواتار</th>
+                            <th>نام و نام خانوادگی</th>
+                            <th>ایمیل</th>
+                            <th>شماره تماس</th>
+                            <th>وضعیت</th>
+                            <th>تاریخ عضویت</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        
+        <section id="orders" class="content-section">
+            <div class="page-header">
+                <h2>مدیریت سفارش‌ها</h2>
+                <div class="page-actions">
+                    <button class="btn btn-success">
+                        <i class="fas fa-file-excel"></i>
+                        خروجی Excel
+                    </button>
+                </div>
+            </div>
+
+            <div class="filters-bar">
+                <div class="search-box">
+                    <input type="text" placeholder="جستجو...">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="filter-options">
+                    <select>
+                        <option value="">همه وضعیت‌ها</option>
+                        <option value="pending">در انتظار</option>
+                        <option value="in-progress">در حال انجام</option>
+                        <option value="completed">تکمیل شده</option>
+                        <option value="cancelled">لغو شده</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>شماره سفارش</th>
+                            <th>کاربر</th>
+                            <th>پلتفرم</th>
+                            <th>نوع استراتژی</th>
+                            <th>وضعیت</th>
+                            <th>تاریخ سفارش</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    
+    <div id="addUserModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>افزودن کاربر جدید</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="addUserForm">
+                    <div class="form-group">
+                        <label for="firstName">نام</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">نام خانوادگی</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">ایمیل</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">شماره تماس</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">وضعیت</label>
+                        <select id="status" name="status" required>
+                            <option value="active">فعال</option>
+                            <option value="inactive">غیرفعال</option>
+                            <option value="suspended">مسدود</option>
+                        </select>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelBtn">انصراف</button>
+                        <button type="submit" class="btn btn-primary">ذخیره</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+    <div id="orderDetailsModal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>جزئیات سفارش</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // تغییر منوها
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // حذف کلاس active از همه منوها
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
+                
+                // اضافه کردن کلاس active به منوی انتخاب شده
+                this.classList.add('active');
+                
+                // نمایش بخش مربوطه
+                const sectionId = this.getAttribute('data-section');
+                document.getElementById(sectionId).classList.add('active');
+            });
+        });
+
+        // مدال افزودن کاربر
+        const addUserBtn = document.getElementById('addUserBtn');
+        const addUserModal = document.getElementById('addUserModal');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const closeButtons = document.querySelectorAll('.close');
+
+        addUserBtn.addEventListener('click', () => {
+            addUserModal.style.display = 'block';
+        });
+
+        cancelBtn.addEventListener('click', () => {
+            addUserModal.style.display = 'none';
+        });
+
+        closeButtons.forEach(closeBtn => {
+            closeBtn.addEventListener('click', (e) => {
+                e.target.closest('.modal').style.display = 'none';
+            });
+        });
+
+        // بستن مدال با کلیک بیرون از آن
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                e.target.style.display = 'none';
+            }
+        });
+
+        // فرم افزودن کاربر
+        document.getElementById('addUserForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // در اینجا می‌توانید داده‌ها را پردازش کنید
+            console.log('کاربر جدید اضافه شد');
+            addUserModal.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
