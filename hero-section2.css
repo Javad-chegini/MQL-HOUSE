@@ -99,7 +99,7 @@
 @media (max-width: 380px) {
   .trading-styles__image svg,
   .trading-styles__image img {
-    width: 330px !important; 
+    width: 330px !important;  /* یا هر مقدار که دوست دارید */
     height: auto !important;
     max-width: 80vw;
     display: block;
