@@ -91,8 +91,8 @@ body.dark-mode .mission-card {
 }
 
 .card-icon svg {
-    width: 40px;
-    height: 40px;
+    width: 100px;
+    height: 100px;
     fill: white;
 }
 
@@ -201,7 +201,7 @@ body.dark-mode .team-card {
     position: absolute;
     inset: 4px;
     border-radius: 50%;
-    background: rgba(37, 99, 235, 0.9);
+    background: #2563ebe6;
     display: flex;
     align-items: center;
     justify-content: center;
