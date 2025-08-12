@@ -282,3 +282,61 @@ async function subOrder(title, description, tools_description) {
     return { error: "network_error", msg: null, status: null, order: null };
   }
 }
+
+async function changeActivation(user_id, active_mode) {
+  if (!_checkParams([user_id]) || (active_mode === undefined || active_mode === null)) {
+    return { error: "no_params", msg: null, status: null, active_mode: null, result: null };
+  }
+
+  const { accessToken, error } = accessTokenFinder();
+  if (error) {
+    return { error: error, msg: null, status: null, active_mode: null, result: null };
+  }
+
+  let activeBool;
+  if (typeof active_mode === "boolean") {
+    activeBool = active_mode;
+  } else if (typeof active_mode === "number") {
+    activeBool = active_mode === 1;
+  } else {
+    const v = String(active_mode).toLowerCase().trim();
+    if (["true", "1", "yes", "y"].includes(v)) activeBool = true;
+    else if (["false", "0", "no", "n"].includes(v)) activeBool = false;
+    else {
+      return { error: "invalid_active_mode", msg: "active_mode must be boolean|\"true\"|\"false\"|1|0", status: null, active_mode: null, result: null };
+    }
+  }
+
+  const uid = Number(user_id);
+  const payload = { user_id: Number.isNaN(uid) ? user_id : uid, active_mode: activeBool };
+
+  try {
+    const response = await fetch("/api/change-active/", {
+      method: "PATCH",
+      headers: Object.assign({ "Content-Type": "application/json" }, _authHeaderMaybe()),
+      body: JSON.stringify(payload),
+    });
+
+    const result = await _safeJson(response);
+
+    if (!response.ok) {
+      return {
+        error: (result && result.error) || "error",
+        msg: (result && (result.msg || result.message)) || null,
+        status: response.status,
+        active_mode: null,
+        result: result || null,
+      };
+    }
+
+    return {
+      error: null,
+      msg: (result && (result.msg || result.message)) || null,
+      status: response.status,
+      active_mode: (result && (result.active_mode === true || result.active_mode === false)) ? result.active_mode : activeBool,
+      result: result || null,
+    };
+  } catch (err) {
+    return { error: "network_error", msg: null, status: null, active_mode: null, result: null };
+  }
+}
