@@ -559,3 +559,112 @@ body.dark-mode .mobile-nav .nav-link {
   background: var(--light-gray); 
   border-radius: 12px;
 }
+
+/* ======= Form Validation Styles ======= */
+.form-group {
+    position: relative;
+  }
+  
+  .form-group input.error,
+  .form-group textarea.error {
+    border-color: #ef4444;
+    background: rgba(239, 68, 68, 0.05);
+  }
+  
+  .form-group input.success,
+  .form-group textarea.success {
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.05);
+  }
+  
+  .field-error {
+    display: block;
+    color: #ef4444;
+    font-size: 13px;
+    margin-top: 5px;
+    font-weight: 500;
+  }
+  
+  /* ======= Loading Spinner ======= */
+  .btn-submit.loading {
+    position: relative;
+    color: transparent;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .btn-submit.loading span {
+    color: white;
+  }
+  
+  .spinner {
+    width: 20px;
+    height: 20px;
+    animation: rotate 1s linear infinite;
+  }
+  
+  .spinner circle {
+    stroke: white;
+    stroke-linecap: round;
+    animation: dash 1.5s ease-in-out infinite;
+  }
+  
+  @keyframes rotate {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes dash {
+    0% {
+      stroke-dasharray: 1, 150;
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dasharray: 90, 150;
+      stroke-dashoffset: -35;
+    }
+    100% {
+      stroke-dasharray: 90, 150;
+      stroke-dashoffset: -124;
+    }
+  }
+  
+  /* ======= Success/Error Messages ======= */
+  .form-success {
+    animation: slideIn 0.5s ease-out;
+  }
+  
+  .form-error {
+    background: #ef4444;
+    color: white;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 500;
+    margin-top: 20px;
+    animation: slideIn 0.5s ease-out;
+  }
+  
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* ======= Responsive Improvements ======= */
+  @media (max-width: 768px) {
+    .form-group input,
+    .form-group textarea {
+      font-size: 16px; /* جلوگیری از zoom در موبایل */
+    }
+  }
+  
