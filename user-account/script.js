@@ -1,45 +1,43 @@
-
+// ======= تابع تغییر تم =======
 function toggleTheme() {
     document.body.classList.toggle('dark-mode');
     localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
 }
 
-
+// ======= بارگذاری تم در ابتدا =======
 document.addEventListener('DOMContentLoaded', function() {
     if (localStorage.getItem('darkMode') === 'true') {
         document.body.classList.add('dark-mode');
     }
 });
 
-
+// ======= تابع خروج با استفاده از API =======
 function logout() {
     if (confirm('آیا می‌خواهید از حساب کاربری خود خارج شوید؟')) {
+        // پاک کردن توکن‌ها با استفاده از تابع apiHandler
+        clearTokens();
         
-        localStorage.removeItem('userToken');
+        // پاک کردن اطلاعات کاربر
         localStorage.removeItem('userInfo');
+        localStorage.removeItem('userDocuments');
+        
+        // ریدایرکت به صفحه اصلی
         window.location.href = 'index.html';
-
-        
-        
     }
 }
 
-
+// ======= مدیریت لینک‌های سایدبار =======
 document.querySelectorAll('.sidebar-link').forEach(link => {
     link.addEventListener('click', function(e) {
         e.preventDefault();
 
-        
         document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
-        
         this.classList.add('active');
 
-        
         document.querySelectorAll('.content-section').forEach(section => {
             section.classList.remove('active');
         });
 
-        
         const targetId = this.getAttribute('href').substring(1);
         const targetSection = document.getElementById(targetId);
         if (targetSection) {
@@ -48,13 +46,13 @@ document.querySelectorAll('.sidebar-link').forEach(link => {
     });
 });
 
-
+// ======= مدیریت مودال افزودن مدرک =======
 function showAddDocumentModal() {
     const modal = document.getElementById('addDocumentModal');
     if (modal) {
         modal.classList.add('show');
-        modal.style.display = 'block'; 
-        document.body.style.overflow = 'hidden'; 
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
         console.log('مودال افزودن مدرک باز شد');
     }
 }
@@ -64,43 +62,44 @@ function closeAddDocumentModal() {
     if (modal) {
         modal.classList.remove('show');
         modal.style.display = 'none';
-        document.body.style.overflow = ''; 
+        document.body.style.overflow = '';
         console.log('مودال افزودن مدرک بسته شد');
     }
 }
 
-
+// ======= بستن مودال با کلیک بیرون =======
 window.onclick = function(event) {
     const modal = document.getElementById('addDocumentModal');
     if (event.target === modal && modal.classList.contains('show')) {
         closeAddDocumentModal();
     }
 
-    
     const editModal = document.getElementById('editProfileModal');
     if (event.target == editModal) {
         editModal.style.display = 'none';
     }
 }
 
-
+// ======= حذف مدرک =======
 function deleteDocument(id) {
     if (confirm('آیا می‌خواهید این مدرک را حذف کنید؟')) {
         const card = document.querySelector(`.document-card[data-id="${id}"]`);
         if (card) {
             card.remove();
+            
+            // حذف از localStorage
+            const documents = JSON.parse(localStorage.getItem('userDocuments') || '[]');
+            const updatedDocs = documents.filter(doc => doc.id !== parseInt(id));
+            localStorage.setItem('userDocuments', JSON.stringify(updatedDocs));
+            
             showNotification('مدرک با موفقیت حذف شد!', 'success');
         }
-
-        
-        
     }
 }
 
-
+// ======= مدیریت فرم افزودن مدرک =======
 const addDocumentForm = document.querySelector('.add-document-form');
 if (addDocumentForm) {
-    
     const fileInput = document.querySelector('input[name="file"]');
     if (fileInput) {
         fileInput.addEventListener('change', function(event) {
@@ -115,7 +114,7 @@ if (addDocumentForm) {
         });
     }
 
-    addDocumentForm.addEventListener('submit', function(e) {
+    addDocumentForm.addEventListener('submit', async function(e) {
         e.preventDefault();
 
         const formData = new FormData(this);
@@ -129,9 +128,8 @@ if (addDocumentForm) {
             return;
         }
 
-        
         const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
-        const maxSize = 5 * 1024 * 1024; 
+        const maxSize = 5 * 1024 * 1024;
 
         if (!allowedTypes.includes(file.type)) {
             showNotification('لطفاً فقط فایل‌های JPG, PNG, JPEG یا PDF انتخاب کنید.', 'error');
@@ -143,27 +141,35 @@ if (addDocumentForm) {
             return;
         }
 
-        
-        const userName = 'ali_ahmadi'; 
-        const extension = file.name.split('.').pop();
-        const newFileName = `${userName}_${title.replace(/\s/g, '_')}.${extension}`;
-        
-
-        
+        // ذخیره مدرک در localStorage (تا زمانی که API endpoint اضافه شود)
         const fileURL = URL.createObjectURL(file);
+        const newDocument = {
+            id: Date.now(),
+            title: title,
+            description: description,
+            issueDate: issueDate,
+            fileUrl: fileURL,
+            fileName: file.name,
+            uploadDate: new Date().toISOString()
+        };
 
-        
+        // ذخیره در localStorage
+        const documents = JSON.parse(localStorage.getItem('userDocuments') || '[]');
+        documents.push(newDocument);
+        localStorage.setItem('userDocuments', JSON.stringify(documents));
+
+        // اضافه کردن به DOM
         const documentsList = document.querySelector('.documents-list');
         if (documentsList) {
             const newCard = document.createElement('div');
             newCard.className = 'document-card';
-            newCard.dataset.id = Date.now();
+            newCard.dataset.id = newDocument.id;
             newCard.innerHTML = `
                 <img src="${fileURL}" alt="${title}" class="document-image">
                 <h3>${title}</h3>
                 <p>${description}</p>
                 <small>تاریخ صدور: ${issueDate}</small>
-                <button onclick="deleteDocument('${newCard.dataset.id}')">حذف</button>
+                <button onclick="deleteDocument('${newDocument.id}')">حذف</button>
             `;
             documentsList.appendChild(newCard);
         }
@@ -171,14 +177,11 @@ if (addDocumentForm) {
         showNotification('مدرک با موفقیت اضافه شد!', 'success');
         closeAddDocumentModal();
         this.reset();
-        document.getElementById('documentPreview').style.display = 'none'; 
-
-        
-        
+        document.getElementById('documentPreview').style.display = 'none';
     });
 }
 
-
+// ======= ویرایش پروفایل =======
 function editProfile() {
     const editModal = document.getElementById('editProfileModal');
     if (editModal) {
@@ -191,22 +194,81 @@ function editProfile() {
     }
 }
 
-function populateProfileForm() {
-    const currentUser = {
-        name: 'علی',
-        surname: 'احمدی',
-        email: 'ali.ahmadi@example.com',
-        phone: '09123456789',
-        bio: 'توسعه‌دهنده فرانت‌اند'
+// ======= پر کردن فرم پروفایل با اطلاعات API =======
+async function populateProfileForm() {
+    try {
+        // دریافت اطلاعات از localStorage یا API
+        const storedUser = localStorage.getItem('userInfo');
+        let user = storedUser ? JSON.parse(storedUser) : null;
+        
+        // اگر اطلاعات کاربر در localStorage نبود، از API دریافت کن
+        if (!user) {
+            const loginResult = await login();
+            
+            if (loginResult.error) {
+                showNotification('خطا در دریافت اطلاعات کاربر', 'error');
+                if (loginResult.error === 'no_authenticated' || loginResult.error === 'jwt_invalid') {
+                    clearTokens();
+                    window.location.href = 'index.html';
+                }
+                return;
+            }
+            
+            user = loginResult.user;
+            if (user) {
+                localStorage.setItem('userInfo', JSON.stringify(user));
+            }
+        }
+        
+        // پر کردن فرم با اطلاعات کاربر
+        if (user) {
+            document.getElementById('editName').value = user.first_name || '';
+            document.getElementById('editSurname').value = user.last_name || '';
+            document.getElementById('editEmail').value = user.email || '';
+            document.getElementById('editPhone').value = user.phone_number || '';
+            document.getElementById('editBio').value = user.bio || '';
+            
+            updateProfileDisplay(user);
+        }
+        
+    } catch (error) {
+        console.error('خطا در دریافت اطلاعات پروفایل:', error);
+        showNotification('خطا در ارتباط با سرور', 'error');
+    }
+}
+
+// ======= بروزرسانی نمایش پروفایل =======
+function updateProfileDisplay(user) {
+    // بروزرسانی نام در هدر
+    const userNameElement = document.querySelector('.user-info h3');
+    if (userNameElement && user) {
+        userNameElement.textContent = `${user.first_name || ''} ${user.last_name || ''}`;
+    }
+    
+    // بروزرسانی تخصص
+    const userRoleElement = document.querySelector('.user-info p');
+    if (userRoleElement && user) {
+        userRoleElement.textContent = user.user_type || 'کاربر';
+    }
+    
+    // بروزرسانی اطلاعات در بخش پروفایل
+    const profileFields = {
+        'profile-name': user.first_name,
+        'profile-surname': user.last_name,
+        'profile-email': user.email,
+        'profile-phone': user.phone_number,
+        'profile-specialty': user.user_type || 'کاربر'
     };
-    document.getElementById('editName').value = currentUser.name || '';
-    document.getElementById('editSurname').value = currentUser.surname || '';
-    document.getElementById('editEmail').value = currentUser.email || '';
-    document.getElementById('editPhone').value = currentUser.phone || '';
-    document.getElementById('editBio').value = currentUser.bio || '';
+    
+    for (const [id, value] of Object.entries(profileFields)) {
+        const element = document.getElementById(id);
+        if (element) {
+            element.textContent = value || '-';
+        }
+    }
 }
 
-
+// ======= بستن مودال =======
 function closeModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
@@ -215,19 +277,7 @@ function closeModal(modalId) {
     }
 }
 
-
-
-
-
-function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.style.display = 'none';
-        console.log(`مودال ${modalId} بسته شد`);
-    }
-}
-
-
+// ======= کلاس مدیریت داشبورد =======
 class UserDashboardHandler {
     constructor() {
         this.header = document.getElementById('header');
@@ -242,12 +292,11 @@ class UserDashboardHandler {
 
     init() {
         this.initNavigation();
-        this.initMobileMenu(); 
+        this.initMobileMenu();
         this.initThemeToggle();
-        this.initNotifications(); 
+        this.initNotifications();
     }
 
-    
     initNavigation() {
         this.navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
@@ -265,7 +314,6 @@ class UserDashboardHandler {
         });
     }
 
-    
     initMobileMenu() {
         if (this.hamburger && this.mobileMenu) {
             this.hamburger.addEventListener('click', (e) => {
@@ -276,7 +324,6 @@ class UserDashboardHandler {
                 console.log('منوی موبایل:', isActive ? 'باز شد' : 'بسته شد');
             });
 
-            
             this.mobileMenu.querySelectorAll('.nav-link').forEach(link => {
                 link.addEventListener('click', () => {
                     this.hamburger.classList.remove('active');
@@ -285,7 +332,6 @@ class UserDashboardHandler {
                 });
             });
 
-            
             document.addEventListener('click', (e) => {
                 if (!this.hamburger.contains(e.target) &&
                     !this.mobileMenu.contains(e.target) &&
@@ -300,7 +346,6 @@ class UserDashboardHandler {
         }
     }
 
-    
     initThemeToggle() {
         const saved = localStorage.getItem('theme');
         if (saved === 'dark') {
@@ -336,7 +381,6 @@ class UserDashboardHandler {
                 icon.setAttribute('stroke-linecap', 'round');
                 icon.setAttribute('stroke-linejoin', 'round');
                 if (isDark) {
-                    
                     icon.innerHTML = `
                         <circle cx="12" cy="12" r="4"></circle>
                         <path d="M12 2v2"></path>
@@ -349,7 +393,6 @@ class UserDashboardHandler {
                         <path d="m19.07 4.93-1.41 1.41"></path>
                     `;
                 } else {
-                    
                     icon.innerHTML = `
                         <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
                     `;
@@ -358,14 +401,12 @@ class UserDashboardHandler {
         });
     }
 
-    
     initNotifications() {
         const notificationsBtn = document.getElementById('notificationsBtn');
         const notificationsDropdown = document.getElementById('notificationsDropdown');
         const notificationBadge = document.getElementById('notificationBadge');
 
         if (notificationsBtn && notificationsDropdown) {
-            
             notificationsBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const isShowing = notificationsDropdown.classList.contains('show');
@@ -373,7 +414,6 @@ class UserDashboardHandler {
                 console.log('نوتیفیکیشن:', !isShowing ? 'باز شد' : 'بسته شد');
             });
 
-            
             document.addEventListener('click', (e) => {
                 if (!notificationsBtn.contains(e.target) &&
                     !notificationsDropdown.contains(e.target)) {
@@ -381,7 +421,6 @@ class UserDashboardHandler {
                 }
             });
 
-            
             const notificationItems = document.querySelectorAll('.notification-item');
             notificationItems.forEach(item => {
                 item.addEventListener('click', () => {
@@ -390,16 +429,12 @@ class UserDashboardHandler {
                 });
             });
 
-            
             this.updateBadgeCount();
 
-            
-            
-         
         } else {
             console.warn('المنت‌های نوتیفیکیشن پیدا نشدند');
         }
-        
+
         const mobileNotificationsBtn = document.getElementById('mobileNotificationsBtn');
         if (mobileNotificationsBtn) {
             mobileNotificationsBtn.addEventListener('click', (e) => {
@@ -409,7 +444,6 @@ class UserDashboardHandler {
         }
     }
 
-    
     updateBadgeCount() {
         const notificationBadge = document.getElementById('notificationBadge');
         if (notificationBadge) {
@@ -424,14 +458,12 @@ class UserDashboardHandler {
     }
 }
 
-
+// ======= مدیریت آپلود فایل =======
 function handleFileUpload(event) {
     const file = event.target.files[0];
     if (file) {
-        
         const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
         if (allowedTypes.includes(file.type)) {
-            
             const reader = new FileReader();
             reader.onload = function(e) {
                 const preview = document.getElementById('imagePreview');
@@ -442,43 +474,56 @@ function handleFileUpload(event) {
             };
             reader.readAsDataURL(file);
             showNotification('تصویر بارگذاری شد', 'success');
-
-            
-            
         } else {
             showNotification('لطفاً فقط فایل‌های تصویری (JPG, PNG) انتخاب کنید.', 'error');
         }
     }
 }
 
-
-function saveChanges(formId) {
+// ======= ذخیره تغییرات با API =======
+async function saveChanges(formId) {
     const form = document.getElementById(formId);
-    if (form) {
+    if (!form) return;
+    
+    try {
         const formData = new FormData(form);
-
         
-        console.log('ذخیره تغییرات...', Object.fromEntries(formData));
-
+        if (formId === 'editProfileForm') {
+            // بروزرسانی اطلاعات کاربر
+            const updatedUser = {
+                first_name: formData.get('name'),
+                last_name: formData.get('surname'),
+                email: formData.get('email'),
+                phone_number: formData.get('phone'),
+                bio: formData.get('bio')
+            };
+            
+            // ذخیره در localStorage
+            const currentUser = JSON.parse(localStorage.getItem('userInfo') || '{}');
+            const mergedUser = { ...currentUser, ...updatedUser };
+            localStorage.setItem('userInfo', JSON.stringify(mergedUser));
+            
+            // بروزرسانی نمایش
+            updateProfileDisplay(mergedUser);
+            
+            showNotification('تغییرات با موفقیت ذخیره شد!', 'success');
+            closeModal('editProfileModal');
+            
+            // TODO: ارسال به API وقتی endpoint آماده شد
+            // const result = await updateProfile(updatedUser);
+        }
         
-        showNotification('تغییرات با موفقیت ذخیره شد!', 'success');
-
-        
-        const modalId = formId.replace('Form', 'Modal');
-        closeModal(modalId);
-
-        
-        
+    } catch (error) {
+        console.error('خطا در ذخیره تغییرات:', error);
+        showNotification('خطا در ذخیره تغییرات', 'error');
     }
 }
 
-
+// ======= نمایش نوتیفیکیشن =======
 function showNotification(message, type = 'info') {
-    
     const existingNotifications = document.querySelectorAll('.custom-notification');
     existingNotifications.forEach(notif => notif.remove());
 
-    
     const notification = document.createElement('div');
     notification.className = `custom-notification notification-${type}`;
     notification.innerHTML = `
@@ -486,7 +531,6 @@ function showNotification(message, type = 'info') {
         <button onclick="this.parentElement.remove()" style="background: none; border: none; color: inherit; margin-right: 10px; cursor: pointer; font-size: 18px;">&times;</button>
     `;
 
-    
     notification.style.cssText = `
         position: fixed;
         top: 100px;
@@ -507,10 +551,8 @@ function showNotification(message, type = 'info') {
         min-width: 200px;
     `;
 
-    
     document.body.appendChild(notification);
 
-    
     setTimeout(() => {
         if (notification.parentElement) {
             notification.remove();
@@ -520,7 +562,7 @@ function showNotification(message, type = 'info') {
     console.log(`نوتیفیکیشن نمایش داده شد: ${message} (نوع: ${type})`);
 }
 
-
+// ======= اضافه کردن استایل انیمیشن =======
 const style = document.createElement('style');
 style.textContent = `
     @keyframes slideDown {
@@ -536,34 +578,21 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-
-document.addEventListener('DOMContentLoaded', () => {
-    new UserDashboardHandler();
-    
-    document.documentElement.style.visibility = 'visible';
-    console.log('UserDashboardHandler راه‌اندازی شد');
-});
-
-
+// ======= مدیریت دکمه‌های ویرایش =======
 document.addEventListener('DOMContentLoaded', function() {
-    
     const editButtons = document.querySelectorAll('.btn-edit, [onclick="editProfile()"]');
-
     editButtons.forEach(btn => {
-        
         btn.removeAttribute('onclick');
-
-        
         btn.addEventListener('click', function(e) {
             e.preventDefault();
             console.log('دکمه ویرایش کلیک شد');
             editProfile();
         });
     });
-
     console.log(`${editButtons.length} دکمه ویرایش پیدا شد`);
 });
 
+// ======= مدیریت فرم ویرایش پروفایل =======
 document.addEventListener('DOMContentLoaded', function() {
     const editProfileForm = document.getElementById('editProfileForm');
     if (editProfileForm) {
@@ -574,254 +603,54 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-
+// ======= متغیرهای نوتیفیکیشن =======
 let currentPage = 1;
 let notificationsPerPage = 10;
 let allNotifications = [];
 let filteredNotifications = [];
 
-
-const sampleNotifications = [
-    {
-        id: 1,
-        title: 'سفارش جدید دریافت شد',
-        text: 'سفارش EA جدید از طرف علی احمدی دریافت شده است',
-        time: '۱۰ دقیقه پیش',
-        timestamp: new Date(Date.now() - 10 * 60 * 1000),
-        type: 'سفارش',
-        unread: true
-    },
-    {
-        id: 2,
-        title: 'پروژه تکمیل شد',
-        text: 'پروژه اکسپرت ادوایزر شما آماده تحویل است',
-        time: '۲ ساعت پیش',
-        timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
-        type: 'پروژه',
-        unread: true
-    },
-    {
-        id: 3,
-        title: 'پیام جدید',
-        text: 'پیام جدید در بخش پشتیبانی دریافت شده',
-        time: '۱ روز پیش',
-        timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000),
-        type: 'پیام',
-        unread: false
-    },
+// ======= مدیریت صفحه‌بندی نوتیفیکیشن =======
+function changePage(direction) {
+    const totalPages = Math.ceil(filteredNotifications.length / notificationsPerPage);
     
-    {
-        id: 4,
-        title: 'بروزرسانی سیستم',
-        text: 'سیستم مدیریت پروژه بروزرسانی شد',
-        time: '۲ روز پیش',
-        timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
-        type: 'سیستم',
-        unread: false
-    },
-    {
-        id: 5,
-        title: 'تراکنش مالی',
-        text: 'مبلغ ۵۰۰ هزار تومان به حساب شما واریز شد',
-        time: '۳ روز پیش',
-        timestamp: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
-        type: 'مالی',
-        unread: false
+    if (direction === 'next' && currentPage < totalPages) {
+        currentPage++;
+    } else if (direction === 'prev' && currentPage > 1) {
+        currentPage--;
     }
-];
-
-
-function openAllNotifications() {
-    const modal = document.getElementById('allNotificationsModal');
-    if (modal) {
-        loadAllNotifications();
-        modal.style.display = 'block';
-        setupNotificationFilters();
-        console.log('مودال همه اعلانات باز شد');
-    }
-}
-
-
-function loadAllNotifications() {
     
-    allNotifications = [...sampleNotifications];
-    filteredNotifications = [...allNotifications];
-    currentPage = 1;
-    renderNotifications();
-    
-    
-    
-}
-
-
-function renderNotifications() {
-    const container = document.getElementById('allNotificationsList');
-    if (!container) return;
-
-    const startIndex = (currentPage - 1) * notificationsPerPage;
-    const endIndex = startIndex + notificationsPerPage;
-    const pageNotifications = filteredNotifications.slice(startIndex, endIndex);
-
-    if (pageNotifications.length === 0) {
-        container.innerHTML = `
-            <div class="no-notifications">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5l-5-5h5V7a3 3 0 013-3h5a3 3 0 013 3v10z"/>
-                </svg>
-                <h3>اعلانی موجود نیست</h3>
-                <p>هیچ اعلانی برای نمایش وجود ندارد</p>
-            </div>
-        `;
-    } else {
-        container.innerHTML = pageNotifications.map(notification => `
-            <div class="notification-item-full ${notification.unread ? 'unread' : ''}" data-id="${notification.id}">
-                <div class="notification-header-full">
-                    <h3 class="notification-title-full">${notification.title}</h3>
-                    <div class="notification-meta">
-                        <span class="notification-type">${notification.type}</span>
-                        <span class="notification-time">${notification.time}</span>
-                    </div>
-                </div>
-                <p class="notification-text-full">${notification.text}</p>
-                <div class="notification-actions">
-                    ${notification.unread ? 
-                        '<button class="btn-mark-read" onclick="markAsRead(' + notification.id + ')">علامت زدن به عنوان خوانده شده</button>' : 
-                        '<span style="color: #10b981; font-size: 12px;">✓ خوانده شده</span>'
-                    }
-                    <button class="btn-delete-notification" onclick="deleteNotification(${notification.id})">حذف</button>
-                </div>
-            </div>
-        `).join('');
-    }
-
+    displayNotifications();
     updatePagination();
 }
 
-
-function setupNotificationFilters() {
-    const searchInput = document.getElementById('notificationSearch');
-    const filterSelect = document.getElementById('notificationFilter');
-
-    if (searchInput) {
-        searchInput.addEventListener('input', filterNotifications);
-    }
-
-    if (filterSelect) {
-        filterSelect.addEventListener('change', filterNotifications);
-    }
+// ======= نمایش نوتیفیکیشن‌ها =======
+function displayNotifications() {
+    const start = (currentPage - 1) * notificationsPerPage;
+    const end = start + notificationsPerPage;
+    const pageNotifications = filteredNotifications.slice(start, end);
+    
+    const notificationsList = document.getElementById('allNotificationsList');
+    if (!notificationsList) return;
+    
+    notificationsList.innerHTML = pageNotifications.map(notification => `
+        <div class="notification-item ${notification.unread ? 'unread' : ''}" data-id="${notification.id}">
+            <div class="notification-content">
+                <h4>${notification.title}</h4>
+                <p>${notification.text}</p>
+                <small>${notification.time}</small>
+            </div>
+            <div class="notification-actions">
+                ${notification.unread ? 
+                    `<button onclick="markAsRead(${notification.id})" class="btn-sm">خوانده شد</button>` : 
+                    ''
+                }
+                <button onclick="deleteNotification(${notification.id})" class="btn-sm btn-danger">حذف</button>
+            </div>
+        </div>
+    `).join('');
 }
 
-
-function filterNotifications() {
-    const searchTerm = document.getElementById('notificationSearch')?.value.toLowerCase() || '';
-    const filterType = document.getElementById('notificationFilter')?.value || 'all';
-
-    filteredNotifications = allNotifications.filter(notification => {
-        
-        const matchesSearch = notification.title.toLowerCase().includes(searchTerm) ||
-                            notification.text.toLowerCase().includes(searchTerm);
-
-        
-        let matchesFilter = true;
-        const now = new Date();
-
-        switch (filterType) {
-            case 'unread':
-                matchesFilter = notification.unread;
-                break;
-            case 'read':
-                matchesFilter = !notification.unread;
-                break;
-            case 'today':
-                const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-                matchesFilter = notification.timestamp >= today;
-                break;
-            case 'week':
-                const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-                matchesFilter = notification.timestamp >= weekAgo;
-                break;
-            case 'month':
-                const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-                matchesFilter = notification.timestamp >= monthAgo;
-                break;
-        }
-
-        return matchesSearch && matchesFilter;
-    });
-
-    currentPage = 1;
-    renderNotifications();
-}
-
-
-function markAsRead(notificationId) {
-    const notification = allNotifications.find(n => n.id === notificationId);
-    if (notification) {
-        notification.unread = false;
-        renderNotifications();
-        updateMainNotificationBadge();
-        showNotification('اعلان به عنوان خوانده شده علامت‌گذاری شد', 'success');
-
-        
-        
-    }
-}
-
-
-function markAllAsRead() {
-    if (confirm('آیا می‌خواهید همه اعلانات را به عنوان خوانده شده علامت‌گذاری کنید؟')) {
-        allNotifications.forEach(notification => {
-            notification.unread = false;
-        });
-        renderNotifications();
-        updateMainNotificationBadge();
-        showNotification('همه اعلانات به عنوان خوانده شده علامت‌گذاری شدند', 'success');
-
-        
-        
-    }
-}
-
-
-function deleteNotification(notificationId) {
-    if (confirm('آیا می‌خواهید این اعلان را حذف کنید؟')) {
-        allNotifications = allNotifications.filter(n => n.id !== notificationId);
-        filteredNotifications = filteredNotifications.filter(n => n.id !== notificationId);
-        renderNotifications();
-        updateMainNotificationBadge();
-        showNotification('اعلان حذف شد', 'success');
-
-        
-        
-    }
-}
-
-
-function clearAllNotifications() {
-    if (confirm('آیا می‌خواهید همه اعلانات را پاک کنید؟ این عمل قابل بازگشت نیست.')) {
-        allNotifications = [];
-        filteredNotifications = [];
-        renderNotifications();
-        updateMainNotificationBadge();
-        showNotification('همه اعلانات پاک شدند', 'success');
-
-        
-        
-    }
-}
-
-
-function changePage(direction) {
-    const totalPages = Math.ceil(filteredNotifications.length / notificationsPerPage);
-    const newPage = currentPage + direction;
-
-    if (newPage >= 1 && newPage <= totalPages) {
-        currentPage = newPage;
-        renderNotifications();
-    }
-}
-
-
+// ======= بروزرسانی صفحه‌بندی =======
 function updatePagination() {
     const totalPages = Math.ceil(filteredNotifications.length / notificationsPerPage);
     const prevBtn = document.getElementById('prevPage');
@@ -833,7 +662,7 @@ function updatePagination() {
     if (pageInfo) pageInfo.textContent = `صفحه ${currentPage} از ${totalPages}`;
 }
 
-
+// ======= بروزرسانی badge نوتیفیکیشن =======
 function updateMainNotificationBadge() {
     const badge = document.getElementById('notificationBadge');
     if (badge) {
@@ -847,14 +676,88 @@ function updateMainNotificationBadge() {
     }
 }
 
+// ======= باز کردن مودال همه نوتیفیکیشن‌ها =======
+function openAllNotifications() {
+    const modal = document.getElementById('allNotificationsModal');
+    if (modal) {
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        
+        // بارگذاری نوتیفیکیشن‌ها از localStorage یا API
+        loadNotifications();
+        displayNotifications();
+        updatePagination();
+    }
+}
 
+// ======= بارگذاری نوتیفیکیشن‌ها =======
+function loadNotifications() {
+    // فعلاً از داده‌های نمونه استفاده می‌کنیم
+    // TODO: از API دریافت شود
+    allNotifications = [
+        {
+            id: 1,
+            title: 'سفارش جدید دریافت شد',
+            text: 'یک سفارش EA جدید از طرف علی احمدی دریافت شد',
+            time: '10 دقیقه پیش',
+            timestamp: new Date(),
+            type: 'سفارش',
+            unread: true
+        },
+        {
+            id: 2,
+            title: 'پروژه تکمیل شد',
+            text: 'Expert Advisor شما آماده تحویل است',
+            time: '2 ساعت پیش',
+            timestamp: new Date(),
+            type: 'پروژه',
+            unread: true
+        },
+        {
+            id: 3,
+            title: 'پیام جدید',
+            text: 'یک پیام جدید از بخش پشتیبانی دارید',
+            time: '1 روز پیش',
+            timestamp: new Date(),
+            type: 'پیام',
+            unread: false
+        }
+    ];
+    
+    filteredNotifications = [...allNotifications];
+}
+
+// ======= اضافه کردن نوتیفیکیشن جدید =======
+function addNewNotification(notification) {
+    const newNotif = {
+        id: Date.now(),
+        title: notification.title,
+        text: notification.text,
+        time: 'همین الان',
+        timestamp: notification.timestamp || new Date(),
+        type: notification.type || 'سیستم',
+        unread: true
+    };
+    
+    allNotifications.unshift(newNotif);
+    filteredNotifications = [...allNotifications];
+    
+    updateMainNotificationBadge();
+    
+    const dropdown = document.getElementById('notificationsDropdown');
+    if (dropdown && dropdown.classList.contains('show')) {
+        renderNotificationDropdown();
+    }
+}
+
+// ======= مدیریت لینک مشاهده همه نوتیفیکیشن‌ها =======
 document.addEventListener('DOMContentLoaded', function() {
     const viewAllLink = document.querySelector('.view-all-notifications');
     if (viewAllLink) {
         viewAllLink.addEventListener('click', function(e) {
             e.preventDefault();
             openAllNotifications();
-            
+
             const dropdown = document.getElementById('notificationsDropdown');
             if (dropdown) {
                 dropdown.classList.remove('show');
@@ -862,3 +765,111 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// ======= بررسی احراز هویت و بارگذاری اولیه =======
+document.addEventListener('DOMContentLoaded', async function() {
+    // بررسی وجود توکن
+    const { accessToken, error } = accessTokenFinder();
+    
+    if (error === 'no_authenticated' || !accessToken) {
+        // اگر کاربر در صفحه داشبورد است و لاگین نیست
+        if (window.location.pathname.includes('dashboard') || 
+            window.location.pathname.includes('user-panel')) {
+            showNotification('لطفاً ابتدا وارد حساب کاربری خود شوید', 'error');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2000);
+            return;
+        }
+    } else {
+        // اگر توکن دارد، بررسی اعتبار آن
+        try {
+            const loginResult = await login();
+            
+            if (loginResult.error) {
+                if (loginResult.error === 'jwt_invalid') {
+                    showNotification('نشست شما منقضی شده است. لطفاً دوباره وارد شوید', 'error');
+                    clearTokens();
+                    localStorage.removeItem('userInfo');
+                    
+                    if (window.location.pathname.includes('dashboard') || 
+                        window.location.pathname.includes('user-panel')) {
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 2000);
+                        return;
+                    }
+                }
+            } else if (loginResult.user) {
+                // ذخیره و نمایش اطلاعات کاربر
+                localStorage.setItem('userInfo', JSON.stringify(loginResult.user));
+                updateProfileDisplay(loginResult.user);
+                
+                // بارگذاری مدارک از localStorage
+                const savedDocuments = JSON.parse(localStorage.getItem('userDocuments') || '[]');
+                const documentsList = document.querySelector('.documents-list');
+                if (documentsList && savedDocuments.length > 0) {
+                    savedDocuments.forEach(doc => {
+                        const card = document.createElement('div');
+                        card.className = 'document-card';
+                        card.dataset.id = doc.id;
+                        card.innerHTML = `
+                            <img src="${doc.fileUrl}" alt="${doc.title}" class="document-image">
+                            <h3>${doc.title}</h3>
+                            <p>${doc.description}</p>
+                            <small>تاریخ صدور: ${doc.issueDate}</small>
+                            <button onclick="deleteDocument('${doc.id}')">حذف</button>
+                        `;
+                        documentsList.appendChild(card);
+                    });
+                }
+            }
+        } catch (error) {
+            console.error('خطا در بررسی احراز هویت:', error);
+        }
+    }
+    
+    // ادامه بارگذاری صفحه
+    new UserDashboardHandler();
+    document.documentElement.style.visibility = 'visible';
+    console.log('صفحه بارگذاری شد');
+});
+
+// ======= تابع ثبت سفارش جدید =======
+async function submitNewOrder(title, description, toolsDescription) {
+    try {
+        showNotification('در حال ارسال سفارش...', 'info');
+        
+        const result = await subOrder(title, description, toolsDescription);
+        
+        if (result.error) {
+            if (result.error === 'no_authenticated') {
+                showNotification('لطفاً ابتدا وارد حساب کاربری خود شوید', 'error');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+                return;
+            }
+            showNotification('خطا در ثبت سفارش: ' + (result.msg || result.error), 'error');
+            return;
+        }
+        
+        showNotification('سفارش شما با موفقیت ثبت شد!', 'success');
+        
+        // اضافه کردن نوتیفیکیشن
+        if (result.order) {
+            addNewNotification({
+                title: 'سفارش جدید ثبت شد',
+                text: `سفارش "${title}" با موفقیت ثبت شد`,
+                type: 'سفارش',
+                timestamp: new Date()
+            });
+        }
+        
+        return result.order;
+        
+    } catch (error) {
+        console.error('خطا در ثبت سفارش:', error);
+        showNotification('خطا در ارتباط با سرور', 'error');
+    }
+}
