@@ -334,7 +334,13 @@ ${data.generalDescription}
             const orderData = collectFormData();
             submitBtn.disabled = true;
             submitBtn.textContent = 'در حال ارسال...';
-            const result = await subOrder(orderData);
+            
+            const result = await subOrder(
+                orderData.title,
+                orderData.description, 
+                orderData.tools_description
+            );
+            
             if (result.error) {
                 alert(`خطا در ارسال: ${result.msg || result.error}`);
             } else {
@@ -350,7 +356,7 @@ ${data.generalDescription}
             submitBtn.disabled = false;
             submitBtn.textContent = 'ارسال';
         }
-    };
+    };    
     if (indBox) {
         indBox.style.display = 'none';
         indBox.querySelectorAll('input').forEach(i => {
