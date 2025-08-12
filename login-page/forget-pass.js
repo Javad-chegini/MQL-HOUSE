@@ -134,12 +134,44 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function showNotification(message, type = 'info') {
-        if (typeof showAlert === 'function') {
-            showAlert(message, type);
+    function showNotification(message, type = 'success') {
+        const existingNotifications = document.querySelectorAll('.notification');
+        existingNotifications.forEach(notification => notification.remove());
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle';
+        notification.innerHTML = `<i class="fas ${icon}"></i> ${message}`;
+        Object.assign(notification.style, {
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            padding: '15px 20px',
+            borderRadius: '8px',
+            color: 'white',
+            fontFamily: 'Vazir, sans-serif',
+            fontSize: '14px',
+            fontWeight: '500',
+            zIndex: '10000',
+            minWidth: '300px',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+            animation: 'slideInRight 0.3s ease-out',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px'
+        });
+        if (type === 'success') {
+            notification.style.background = 'linear-gradient(135deg, #10b981, #059669)';
         } else {
-            alert(message);
+            notification.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
         }
-        console.log(`${type.toUpperCase()}: ${message}`);
+        document.body.appendChild(notification);
+        setTimeout(() => {
+            notification.style.animation = 'slideOutRight 0.3s ease-in';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 300);
+        }, 4000);
     }
 });
