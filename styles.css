@@ -681,3 +681,9 @@ p {
         min-width: 240px;
     }
 }
+
+@media (max-width: 1230px){
+    .nav-wrapper {
+        display: none;
+    }
+}
