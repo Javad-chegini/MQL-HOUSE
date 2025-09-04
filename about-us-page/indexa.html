@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>درباره ما - MQL HOUSE | خانه الگو تریدینگ</title>
+<link href="../svg/header-icon.svg" rel="shortcut icon" type="image/x-icon"/>
+<link href="../styles.css" rel="stylesheet"/>
+<link href="stylesa.css" rel="stylesheet"/>
+<link href="../footer.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="header" id="header">
+<div class="container">
+<div class="header-content">
+
+<div class="logo-wrapper" id="logo">
+<div class="logo-icon">
+<svg viewbox="0 0 200 200" xmlns="">
+<rect fill="#1a5fb4" height="180" rx="40" ry="40" width="180" x="10" y="10"></rect>
+<g fill="none" stroke="white" stroke-width="6">
+<line stroke-linecap="round" x1="50" x2="150" y1="150" y2="150"></line>
+<line stroke-linecap="round" x1="50" x2="50" y1="50" y2="150"></line>
+<polyline points="70,130 90,110 110,120 130,80 150,60" stroke-linecap="round" stroke-linejoin="round"></polyline>
+</g>
+<g fill="white">
+<circle cx="70" cy="130" r="4"></circle>
+<circle cx="90" cy="110" r="4"></circle>
+<circle cx="110" cy="120" r="4"></circle>
+<circle cx="130" cy="80" r="4"></circle>
+<circle cx="150" cy="60" r="4"></circle>
+</g>
+</svg>
+</div>
+<div class="logo-text">
+<div class="logo-title">MQL HOUSE</div>
+<div class="logo-subtitle">خانه الگو تریدینگ</div>
+</div>
+</div>
+<nav class="nav-wrapper">
+<ul class="nav-menu" id="navMenu">
+<div class="nav-indicator" id="navIndicator"></div>
+<li class="nav-item">
+<a class="nav-link" data-nav="home" href="../index.html">صفحه اصلی</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-nav="portfolio" href="../portfolio-page/indexp.html">نمونه کارها</a>
+</li>
+<li class="nav-item">
+<a class="nav-link active" data-nav="about" href="#">درباره ما</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-nav="contact" href="../contact-us-page/indexc.html">تماس با ما</a>
+</li>
+</ul>
+</nav>
+
+<div class="auth-section">
+<button class="theme-toggle" id="themeToggle">
+<svg class="sun-icon" viewbox="0 0 24 24">
+<path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
+</svg>
+</button>
+<div class="auth-buttons">
+<a class="btn btn-login" href="login-page/indexl.html">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+<polyline points="10 17 15 12 10 7"></polyline>
+<line x1="15" x2="3" y1="12" y2="12"></line>
+</svg>
+<span>ورود</span>
+</a>
+<a class="btn btn-register" href="signup-page/indexs.html">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+<circle cx="12" cy="7" r="4"></circle>
+</svg>
+<span>ثبت نام</span>
+</a>
+</div>
+<button class="hamburger" id="hamburger">
+<div class="hamburger-lines">
+<span></span>
+<span></span>
+<span></span>
+</div>
+</button>
+</div>
+</div>
+</div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+<ul class="mobile-nav">
+<li><a class="nav-link" href="../index.html">صفحه اصلی</a></li>
+<li><a class="nav-link" href="../portfolio-page/indexp.html">نمونه کارها</a></li>
+<li><a class="nav-link" href="#">درباره ما</a></li>
+<li><a class="nav-link" href="../contact-us-page/indexc.html">تماس با ما</a></li>
+<li class="mobile-auth">
+<a class="btn btn-login" href="../login-page/indexl.html">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+<polyline points="10 17 15 12 10 7"></polyline>
+<line x1="15" x2="3" y1="12" y2="12"></line>
+</svg>
+<span>ورود</span>
+</a>
+<a class="btn btn-register" href="../signup-page/indexs.html">
+
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+<circle cx="12" cy="7" r="4"></circle>
+</svg>
+<span>ثبت نام</span>
+</a>
+</li>
+<li>
+<button class="mobile-theme-toggle" id="mobileThemeToggle">
+<svg viewbox="0 0 24 24">
+<path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
+</svg>
+</button>
+</li>
+</ul>
+</div>
+
+<main class="content about-page">
+<div class="container">
+
+<section class="about-hero" id="about">
+<div class="hero-content">
+<h1 class="hero-title">درباره MQL HOUSE</h1>
+<div class="hero-subtitle">
+<span class="gradient-text">خانه الگو تریدینگ</span>
+</div>
+<p class="hero-description">
+                        ما در MQL HOUSE با بیش از ۵ سال تجربه در زمینه الگوتریدینگ، تیمی متشکل از بهترین برنامه‌نویسان و تحلیلگران مالی هستیم. 
+                        هدف ما تبدیل ایده‌های شما به ربات‌های هوشمند و سودآور است.
+                    </p>
+</div>
+</section>
+
+<section class="mission-vision">
+<div class="mission-grid">
+<div class="mission-card">
+<div class="card-icon">
+<svg fill="none" height="500" viewbox="0 0 180 130" width="500" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient gradientunits="userSpaceOnUse" id="mainGrad" x1="0" x2="0" y1="130" y2="10">
+<stop stop-color="#1976d2"></stop>
+<stop offset="1" stop-color="#33c9dc"></stop>
+</lineargradient>
+<filter height="80" id="glow" width="80" x="-25" y="-25">
+<fegaussianblur result="coloredBlur" stddeviation="6"></fegaussianblur>
+<femerge>
+<femergenode in="coloredBlur"></femergenode>
+<femergenode in="SourceGraphic"></femergenode>
+</femerge>
+</filter>
+<filter height="40" id="dotGlow" width="40" x="-16" y="-16">
+<fegaussianblur result="coloredBlur" stddeviation="4"></fegaussianblur>
+<femerge>
+<femergenode in="coloredBlur"></femergenode>
+<femergenode in="SourceGraphic"></femergenode>
+</femerge>
+</filter>
+</defs>
+
+<g opacity="0.4">
+
+<line stroke="#7ed6e9" stroke-width="2" x1="35" x2="90" y1="90" y2="60"></line>
+<line stroke="#7ed6e9" stroke-width="2" x1="145" x2="90" y1="90" y2="60"></line>
+<line stroke="#7ed6e9" stroke-dasharray="4,3" stroke-width="2" x1="90" x2="90" y1="60" y2="30"></line>
+<line stroke="#7ed6e9" stroke-dasharray="4,3" stroke-width="2" x1="35" x2="145" y1="90" y2="90"></line>
+
+<circle cx="35" cy="90" fill="#33c9dc" filter="url(#dotGlow)" r="5.5"></circle>
+<circle cx="145" cy="90" fill="#33c9dc" filter="url(#dotGlow)" r="5.5"></circle>
+<circle cx="90" cy="60" fill="#1976d2" filter="url(#dotGlow)" r="6.5"></circle>
+<circle cx="90" cy="30" fill="#76e2d3" filter="url(#dotGlow)" r="4.5">
+<animate attributename="r" dur="2s" repeatcount="indefinite" values="4.5;10;4.5"></animate>
+<animate attributename="opacity" dur="2s" repeatcount="indefinite" values="1;0.5;1"></animate>
+</circle>
+</g>
+
+
+<g filter="url(#glow)">
+<polygon fill="url(#mainGrad)" points="90,10 104,45 76,45">
+<animatetransform attributename="transform" dur="1.1s" from="0,60" repeatcount="indefinite" to="0,0" type="translate"></animatetransform>
+<animate attributename="opacity" dur="1.1s" keytimes="0;0.85;1" repeatcount="indefinite" values="1;0.65;0"></animate>
+</polygon>
+<rect fill="url(#mainGrad)" height="55" rx="6" width="12" x="84" y="45">
+<animatetransform attributename="transform" dur="1.1s" from="0,60" repeatcount="indefinite" to="0,0" type="translate"></animatetransform>
+<animate attributename="opacity" dur="1.1s" keytimes="0;0.85;1" repeatcount="indefinite" values="1;0.65;0"></animate>
+</rect>
+</g>
+
+<g>
+<polygon fill="#64b5f6" points="46,24 59,50 33,50">
+<animatetransform attributename="transform" begin="0.2s" dur="1.3s" from="0,55" repeatcount="indefinite" to="0,0" type="translate"></animatetransform>
+<animate attributename="opacity" begin="0.2s" dur="1.3s" keytimes="0;0.85;1" repeatcount="indefinite" values="1;0.7;0"></animate>
+</polygon>
+<rect fill="#64b5f6" height="36" rx="4" width="8" x="44" y="50">
+<animatetransform attributename="transform" begin="0.2s" dur="1.3s" from="0,55" repeatcount="indefinite" to="0,0" type="translate"></animatetransform>
+<animate attributename="opacity" begin="0.2s" dur="1.3s" keytimes="0;0.85;1" repeatcount="indefinite" values="1;0.7;0"></animate>
+</rect>
+</g>
+
+<g>
+<polygon fill="#64b5f6" points="134,24 147,50 121,50">
+<animatetransform attributename="transform" begin="0.39s" dur="1.3s" from="0,55" repeatcount="indefinite" to="0,0" type="translate"></animatetransform>
+<animate attributename="opacity" begin="0.39s" dur="1.3s" keytimes="0;0.85;1" repeatcount="indefinite" values="1;0.7;0"></animate>
+</polygon>
+<rect fill="#64b5f6" height="36" rx="4" width="8" x="132" y="50">
+<animatetransform attributename="transform" begin="0.39s" dur="1.3s" from="0,55" repeatcount="indefinite" to="0,0" type="translate"></animatetransform>
+<animate attributename="opacity" begin="0.39s" dur="1.3s" keytimes="0;0.85;1" repeatcount="indefinite" values="1;0.7;0"></animate>
+</rect>
+</g>
+
+<g>
+<polygon fill="#89e0e7" points="18,42 27,56 9,56">
+<animatetransform attributename="transform" begin="0.55s" dur="1.45s" from="0,40" repeatcount="indefinite" to="0,0" type="translate"></animatetransform>
+<animate attributename="opacity" begin="0.55s" dur="1.45s" keytimes="0;0.8;1" repeatcount="indefinite" values="0.9;0.5;0"></animate>
+</polygon>
+<rect fill="#89e0e7" height="20" rx="2" width="4" x="16" y="56">
+<animatetransform attributename="transform" begin="0.55s" dur="1.45s" from="0,40" repeatcount="indefinite" to="0,0" type="translate"></animatetransform>
+<animate attributename="opacity" begin="0.55s" dur="1.45s" keytimes="0;0.8;1" repeatcount="indefinite" values="0.9;0.5;0"></animate>
+</rect>
+</g>
+
+<g>
+<polygon fill="#89e0e7" points="162,42 171,56 153,56">
+<animatetransform attributename="transform" begin="0.7s" dur="1.45s" from="0,40" repeatcount="indefinite" to="0,0" type="translate"></animatetransform>
+<animate attributename="opacity" begin="0.7s" dur="1.45s" keytimes="0;0.8;1" repeatcount="indefinite" values="0.9;0.5;0"></animate>
+</polygon>
+<rect fill="#89e0e7" height="20" rx="2" width="4" x="160" y="56">
+<animatetransform attributename="transform" begin="0.7s" dur="1.45s" from="0,40" repeatcount="indefinite" to="0,0" type="translate"></animatetransform>
+<animate attributename="opacity" begin="0.7s" dur="1.45s" keytimes="0;0.8;1" repeatcount="indefinite" values="0.9;0.5;0"></animate>
+</rect>
+</g>
+
+<circle cx="90" cy="110" fill="#33c9dc" r="4.5">
+<animate attributename="cy" dur="2s" repeatcount="indefinite" values="110;30"></animate>
+<animate attributename="opacity" dur="2s" keytimes="0;0.95;1" repeatcount="indefinite" values="1;1;0"></animate>
+</circle>
+<circle cx="134" cy="110" fill="#33c9dc" r="3.3">
+<animate attributename="cy" begin="0.5s" dur="2.1s" repeatcount="indefinite" values="110;50"></animate>
+<animate attributename="opacity" begin="0.5s" dur="2.1s" keytimes="0;0.9;1" repeatcount="indefinite" values="1;1;0"></animate>
+</circle>
+<circle cx="46" cy="110" fill="#33c9dc" r="3.3">
+<animate attributename="cy" begin="0.7s" dur="2s" repeatcount="indefinite" values="110;50"></animate>
+<animate attributename="opacity" begin="0.7s" dur="2s" keytimes="0;0.9;1" repeatcount="indefinite" values="1;1;0"></animate>
+</circle>
+</svg>
+</div>
+<h3>مأموریت ما</h3>
+<p>ارائه بهترین خدمات طراحی و توسعه الگوهای تریدینگ با استفاده از جدیدترین تکنولوژی‌ها و روش‌های علمی.</p>
+</div>
+<div class="mission-card">
+<div class="card-icon">
+<svg fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+
+<path d="M2 12C3.8 7.6 7.95 4 12 4C16.05 4 20.2 7.6 22 12C20.2 16.4 16.05 20 12 20C7.95 20 3.8 16.4 2 12Z" fill="#fff"></path>
+
+<ellipse cx="12" cy="12" fill="#c4c4c4" fill-opacity="0.08" rx="5" ry="5"></ellipse>
+
+<circle cx="12" cy="12" fill="#00bfff" r="3.7"></circle>
+
+<circle cx="13.3" cy="11.2" fill="#fff" fill-opacity="0.85" r="1.5">
+<animate attributename="r" dur="1s" keytimes="0;0.5;1" repeatcount="indefinite" values="0.35;1;0.35"></animate>
+</circle>
+<rect fill="#002064e6" fill-opacity="0" height="16" id="eyelid" rx="8" width="20" x="2" y="4">
+<animate attributename="fill-opacity" dur="3s" keytimes="0;0.40;0.44;0.56;0.60;1" repeatcount="indefinite" values="0;0;1;1;0;0"></animate>
+</rect>
+</svg>
+</div>
+<h3>چشم‌انداز ما</h3>
+<p>تبدیل شدن به پیشرو در صنعت الگوتریدینگ ایران و ارائه راهکارهای نوآورانه برای موفقیت در بازارهای مالی.</p>
+</div>
+</div>
+</section>
+
+<section class="team-section">
+<div class="section-header">
+<h2 class="section-title">تیم ما</h2>
+<p class="section-description">تیمی از متخصصان با تجربه در خدمت شما</p>
+</div>
+<div class="team-grid">
+
+<div class="team-card">
+<div class="member-avatar">
+<svg class="card-background-svg" height="100%" preserveaspectratio="none" viewbox="0 0 1920 1080" width="100%" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="goldGrad" x1="0%" x2="100%" y1="100%" y2="0%">
+<stop offset="0%">
+<animate attributename="stop-color" dur="11s" repeatcount="indefinite" values="#fffde7;#fff9c4;#fff59d;#fff176;#fffde7"></animate>
+</stop>
+<stop offset="30%">
+<animate attributename="stop-color" dur="11s" repeatcount="indefinite" values="#ffee58;#ffeb3b;#fdd835;#fbc02d;#ffee58"></animate>
+</stop>
+<stop offset="70%">
+<animate attributename="stop-color" dur="11s" repeatcount="indefinite" values="#f9a825;#f57f17;#ff8f00;#ff6f00;#f9a825"></animate>
+</stop>
+<stop offset="100%">
+<animate attributename="stop-color" dur="11s" repeatcount="indefinite" values="#e65100;#d84315;#bf360c;#ff5722;#e65100"></animate>
+</stop>
+</lineargradient>
+</defs>
+<rect fill="url(#goldGrad)" height="100%" width="100%" x="0" y="0"></rect>
+</svg>
+<img alt="جواد چگینی" src="../img/b05b3a8b-f1ad-41f4-9f90-802f6697386a.jpg"/>
+<div class="avatar-overlay">
+<div class="social-links">
+<a class="social-link" href="#">
+<svg fill="currentColor" viewbox="0 0 24 24">
+<path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path>
+</svg>
+</a>
+<a class="social-link" href="#">
+<svg fill="currentColor" viewbox="0 0 24 24">
+<path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path>
+</svg>
+</a>
+</div>
+</div>
+</div>
+<div class="member-info">
+<h3 class="member-name">جواد چگینی</h3>
+<p class="member-role">مدیر عامل و برنامه‌نویس ارشد MQL | C Family | PINE SCRIPT</p>
+<p class="member-description">بیش از 5 سال تجربه در برنامه‌نویسی MQL و طراحی سیستم‌های تریدینگ خودکار</p>
+</div>
+</div>
+
+<div class="team-card">
+<div class="member-avatar">
+<img alt="امیر حسین مرادی " src="../img/20250630_011411_423047569.jpg"/>
+<div class="avatar-overlay">
+<div class="social-links">
+<a class="social-link" href="#">
+<svg fill="currentColor" viewbox="0 0 24 24">
+<path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path>
+</svg>
+</a>
+<a class="social-link" href="#">
+<svg fill="currentColor" viewbox="0 0 24 24">
+<path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path>
+</svg>
+</a>
+</div>
+</div>
+</div>
+<div class="member-info">
+<h3 class="member-name">امیر حسین مرادی </h3>
+<p class="member-role">تحلیلگر مالی و استراتژیست</p>
+<p class="member-description">متخصص در تحلیل تکنیکال و بنیادی بازارهای مالی با ۵ سال سابقه کاری</p>
+</div>
+</div>
+
+<div class="team-card team-card-animated">
+<svg class="card-background-svg" height="100%" preserveaspectratio="none" viewbox="0 0 1920 1080" width="100%" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="mintGoldGrad" x1="30%" x2="70%" y1="0%" y2="100%">
+<animatetransform attributename="gradientTransform" dur="18s" repeatcount="indefinite" type="rotate" values="0 50 50;270 50 50;360 50 50"></animatetransform>
+<stop offset="0%">
+<animate attributename="stop-color" dur="10s" repeatcount="indefinite" values="#11998e;#38ef7d;#11998e"></animate>
+<animate attributename="offset" dur="7s" repeatcount="indefinite" values="0%;15%;0%"></animate>
+</stop>
+<stop offset="100%">
+<animate attributename="stop-color" dur="10s" repeatcount="indefinite" values="#38ef7d;#11998e;#38ef7d"></animate>
+<animate attributename="offset" dur="7s" repeatcount="indefinite" values="100%;85%;100%"></animate>
+</stop>
+</lineargradient>
+</defs>
+<rect fill="url(#mintGoldGrad)" height="100%" width="100%" x="0" y="0">
+<animate attributename="opacity" dur="5s" repeatcount="indefinite" values="0.9;1;0.9"></animate>
+</rect>
+</svg>
+<div class="member-avatar">
+<img alt="کمیل " src="../img/20250622_191321_317969468.jpg"/>
+<div class="avatar-overlay">
+<div class="social-links">
+<a class="social-link" href="#">
+<svg fill="currentColor" viewbox="0 0 24 24">
+<path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path>
+</svg>
+</a>
+<a class="social-link" href="#">
+<svg fill="currentColor" viewbox="0 0 24 24">
+<path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path>
+</svg>
+</a>
+</div>
+</div>
+</div>
+<div class="member-info">
+<h3 class="member-name">کمیل </h3>
+<p class="member-role">توسعه‌دهنده Python و AI</p>
+<p class="member-description">متخصص در پیاده‌سازی هوش مصنوعی و یادگیری ماشین برای بازارهای مالی</p>
+</div>
+</div>
+
+<div class="team-card team-card-animated">
+<svg class="card-background-svg" height="100%" preserveaspectratio="none" viewbox="0 0 1920 1080" width="100%" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="twoColorGrad" x1="0%" x2="100%" y1="0%" y2="100%">
+<animatetransform attributename="gradientTransform" dur="15s" repeatcount="indefinite" type="rotate" values="0 50 50;180 50 50;360 50 50"></animatetransform>
+<stop offset="0%">
+<animate attributename="stop-color" dur="8s" repeatcount="indefinite" values="#667eea;#764ba2;#667eea"></animate>
+<animate attributename="offset" dur="6s" repeatcount="indefinite" values="0%;20%;0%"></animate>
+</stop>
+<stop offset="100%">
+<animate attributename="stop-color" dur="8s" repeatcount="indefinite" values="#764ba2;#667eea;#764ba2"></animate>
+<animate attributename="offset" dur="6s" repeatcount="indefinite" values="100%;80%;100%"></animate>
+</stop>
+</lineargradient>
+</defs>
+<rect fill="url(#twoColorGrad)" height="100%" width="100%" x="0" y="0">
+<animate attributename="opacity" dur="4s" repeatcount="indefinite" values="0.8;1;0.8"></animate>
+</rect>
+</svg>
+<div class="member-avatar">
+<img alt="مریم کریمی" src="../img/python.png"/>
+<div class="avatar-overlay">
+<div class="social-links">
+<a class="social-link" href="#">
+<svg fill="currentColor" viewbox="0 0 24 24">
+<path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path>
+</svg>
+</a>
+<a class="social-link" href="#">
+<svg fill="currentColor" viewbox="0 0 24 24">
+<path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path>
+</svg>
+</a>
+</div>
+</div>
+</div>
+<div class="member-info">
+<h3 class="member-name">مریم کریمی</h3>
+<p class="member-role">MQL4/MQL5 development و مدیر پروژه</p>
+<p class="member-description">طراح رابط کاربری و تجربه کاربری با تمرکز بر سادگی و کارایی</p>
+</div>
+</div>
+
+<div class="team-card team-card-animated">
+
+<svg class="card-background-svg dark-svg" height="100%" preserveaspectratio="none" viewbox="0 0 1920 1080" width="100%" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="powerGrad" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%">
+<animate attributename="stop-color" dur="12s" repeatcount="indefinite" values="#0a0a0f;#1e2a3a;#003d5c;#8b0000;#0a0a0f"></animate>
+</stop>
+<stop offset="50%">
+<animate attributename="stop-color" dur="12s" repeatcount="indefinite" values="#1e2a3a;#003d5c;#8b0000;#0a0a0f;#1e2a3a"></animate>
+</stop>
+<stop offset="100%">
+<animate attributename="stop-color" dur="12s" repeatcount="indefinite" values="#003d5c;#8b0000;#0a0a0f;#1e2a3a;#003d5c"></animate>
+</stop>
+</lineargradient>
+</defs>
+<rect fill="url(#powerGrad)" height="100%" width="100%" x="0" y="0"></rect>
+</svg>
+
+<svg class="card-background-svg light-svg" height="100%" preserveaspectratio="none" viewbox="0 0 1920 1080" width="100%" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="lightPowerGrad" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%">
+<animate attributename="stop-color" dur="12s" repeatcount="indefinite" values="#ffffff;#e6f3ff;#cce7ff;#b3dbff;#ffffff"></animate>
+</stop>
+<stop offset="50%">
+<animate attributename="stop-color" dur="12s" repeatcount="indefinite" values="#e6f3ff;#cce7ff;#b3dbff;#ffffff;#e6f3ff"></animate>
+</stop>
+<stop offset="100%">
+<animate attributename="stop-color" dur="12s" repeatcount="indefinite" values="#cce7ff;#b3dbff;#ffffff;#e6f3ff;#cce7ff"></animate>
+</stop>
+</lineargradient>
+</defs>
+<rect fill="url(#lightPowerGrad)" height="100%" width="100%" x="0" y="0"></rect>
+</svg>
+<div class="member-avatar">
+<img alt="ابوالفضل خضری" src="../img/photo_2025-08-17_14-04-16.jpg"/>
+<div class="avatar-overlay">
+<div class="social-links">
+<a class="social-link" href="#">
+<svg fill="currentColor" viewbox="0 0 24 24">
+<path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path>
+</svg>
+</a>
+<a class="social-link" href="#">
+<svg fill="currentColor" viewbox="0 0 24 24">
+<path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path>
+</svg>
+</a>
+</div>
+</div>
+</div>
+<div class="member-info">
+<h3 class="member-name">ابوالفضل خضری</h3>
+<p class="member-role">متخصص در بک اند سایت، توسعه و پیاده سازی سیستم های پیچیده</p>
+<p class="member-description">Django - DRF - JWT - Docker - Linux - JavaScript - Telegram Bot - Restful - Python</p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="stats-section">
+<div class="stats-grid">
+<div class="stat-item">
+<div class="stat-number">500+</div>
+<div class="stat-label">پروژه موفق</div>
+</div>
+<div class="stat-item">
+<div class="stat-number">5+</div>
+<div class="stat-label">سال تجربه</div>
+</div>
+<div class="stat-item">
+<div class="stat-number">100+</div>
+<div class="stat-label">مشتری راضی</div>
+</div>
+<div class="stat-item">
+<div class="stat-number">24/7</div>
+<div class="stat-label">پشتیبانی</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+
+<footer class="footer">
+<div class="container footer-container">
+
+<div class="footer-section footer-about">
+<div class="logo-wrapper">
+<div class="logo-icon">
+<svg viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#1a5fb4" height="180" rx="40" ry="40" width="180" x="10" y="10"></rect>
+
+<g fill="none" stroke="white" stroke-width="6">
+
+<line stroke-linecap="round" x1="50" x2="150" y1="150" y2="150"></line>
+
+<line stroke-linecap="round" x1="50" x2="50" y1="50" y2="150"></line>
+
+<polyline points="70,130 90,110 110,120 130,80 150,60" stroke-linecap="round" stroke-linejoin="round"></polyline>
+</g>
+
+<g fill="white">
+<circle cx="70" cy="130" r="4"></circle>
+<circle cx="90" cy="110" r="4"></circle>
+<circle cx="110" cy="120" r="4"></circle>
+<circle cx="130" cy="80" r="4"></circle>
+<circle cx="150" cy="60" r="4"></circle>
+</g>
+</svg> </div>
+<div class="logo-text">
+<h2 class="logo-title">MQL HOUSE</h2>
+<p class="logo-subtitle">خانه الگو تریدینگ</p>
+</div>
+</div>
+<p class="footer-desc">
+              ارائه‌دهنده بهترین خدمات طراحی و توسعه ماشین های پولساز و راهکارهای تجارت آنلاین.
+            </p>
+</div>
+
+<div class="footer-section footer-links">
+<h3 class="footer-title">لینک‌های مفید</h3>
+<ul class="footer-nav">
+<li><a href="../index.html">صفحه اصلی</a></li>
+<li><a href="../portfolio-page/indexp.html">نمونه کارها</a></li>
+<li><a href="#about">درباره ما</a></li>
+<li><a href="../contact-us-page/indexc.html">تماس با ما</a></li>
+</ul>
+</div>
+
+<div class="footer-section footer-contact">
+<h3 class="footer-title">اطلاعات تماس</h3>
+<p>تهران، خیابان مثال، پلاک ۱۲۳</p>
+<p>تلفن: ۰۲۱-۱۲۳۴۵۶۷۸</p>
+<p>ایمیل: info@mqlhouse.ir</p>
+</div>
+
+<div class="footer-section footer-social">
+<h3 class="footer-title">ما را دنبال کنید</h3>
+<ul class="social-list">
+<li><a aria-label="اینستاگرام" href="https://instagram.com/yourpage" target="_blank">
+
+<svg class="icon-social" viewbox="0 0 24 24">
+<path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm8.5 2a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm-4.25 1.5a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z"></path>
+</svg>
+</a></li>
+<li>
+<a aria-label="تلگرام" href="" target="_blank">
+<svg class="icon-social" viewbox="0 0 24 24" xmlns="">
+
+<circle cx="12" cy="12" fill="#0088cc" r="12"></circle>
+
+<path d="M5.3 12l13.4-5.6c.5-.2 1 .2.8.7l-2.3 9.5c-.1.4-.5.6-.9.4l-3.3-1.5-1.6 1.6c-.2.2-.4.4-.7.4l.3-3.8 6.1-5.5c.3-.2.2-.6-.1-.7L5.3 12z" fill="#fff"></path>
+</svg>
+</a>
+</li>
+<li><a aria-label="فیسبوک" href="" target="_blank">
+
+<svg class="icon-social" viewbox="0 0 24 24">
+<path d="M22 12a10 10 0 1 0-11.5 9.87v-6.99h-2.3v-2.88h2.3V9.83c0-2.27 1.36-3.52 3.44-3.52.99 0 2.03.18 2.03.18v2.23h-1.14c-1.12 0-1.47.7-1.47 1.42v1.7h2.5l-.4 2.88h-2.1v6.99A10 10 0 0 0 22 12z"></path>
+</svg>
+</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-copy">
+<p>© تمامی حقوق برای MQL HOUSE محفوظ است ۲۰۲۴</p>
+</div>
+</footer>
+<script src="../apiHandeler.js"></script>
+<script defer="" src="indexa.js"></script>
+</body>
+</html>
