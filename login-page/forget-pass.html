@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>فراموشی رمز عبور</title>
+  <link rel="shortcut icon" href="header-icon.svg" type="image/x-icon">
+  <link rel="stylesheet" href="stylel.css"/>
+  <script src="../apiHandeler.js"></script>
+  <script src="forget-pass.js"></script>
+  
+  <link rel="stylesheet" href="../fontawesome/css/all.min.css">
+</head>
+<body>
+  
+  <button class="theme-toggle" id="themeToggle" title="تغییر تم">
+    <svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" fill="gold"/><g stroke="gold" stroke-width="2"><line x1="12" y1="1" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g></svg>
+    <svg class="moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 0112.21 3a7 7 0 100 14 9 9 0 008.79-4.21z" fill="#fff"/></svg>
+  </button>
+
+  
+  <div class="decoration-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+  </div>
+
+  <div class="login-container">
+    <div class="login-card" id="forgotCard">
+      <div class="logo-container">
+        
+        <div class="site-logo">
+          <i class="fa-solid fa-user-lock fa-3x" style="color:#2563eb;"></i>
+        </div>
+      </div>
+      <div class="login-title" id="forgotTitle">بازیابی رمز عبور</div>
+
+      <form class="login-form" id="forgotForm" autocomplete="off">
+        
+        <div id="step1">
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-input"
+              id="contact"
+              placeholder="ایمیل یا شماره موبایل"
+              autocomplete="off"
+            />
+            <span class="input-icon">
+              <i class="fas fa-envelope"></i>
+            </span>
+          </div>
+          <button type="submit" class="login-btn">ارسال کد</button>
+        </div>
+        
+        <div id="step2" style="display:none;">
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-input"
+              id="resetCode"
+              maxlength="6"
+              placeholder="کد تأیید ۶ رقمی را وارد کنید"
+              autocomplete="off"
+            />
+            <span class="input-icon">
+              <i class="fas fa-key"></i>
+            </span>
+          </div>
+          <button type="button" class="login-btn" id="codeVerifyBtn">تأیید</button>
+          <div class="form-options" style="justify-content:flex-end;margin-top:10px;">
+            <span id="resendTimer">
+              ارسال مجدد تا <span id="timerValue">60</span> ثانیه
+            </span>
+            <button type="button" id="resendBtn" class="forgot-password" style="display:none;">ارسال مجدد</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="login-footer" style="margin-top:20px;text-align:center;">
+        <a href="indexl.html" class="forgot-password">
+          بازگشت به ورود
+          <i class="fa fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  
+  <script>
+  
+  const themeToggle = document.getElementById('themeToggle');
+  const currentTheme = localStorage.getItem('theme') || 'light';
+  if (currentTheme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+  }
+  themeToggle.addEventListener('click', function() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+  });
+
+  
+  const forgotForm = document.getElementById('forgotForm');
+  const step1 = document.getElementById('step1');
+  const step2 = document.getElementById('step2');
+  const contactInput = document.getElementById('contact');
+  const resetCodeInput = document.getElementById('resetCode');
+  const resendBtn = document.getElementById('resendBtn');
+  const resendTimer = document.getElementById('resendTimer');
+  const timerValue = document.getElementById('timerValue');
+  const codeVerifyBtn = document.getElementById('codeVerifyBtn');
+  let code = '';
+  let timer = null;
+  let countdown = 60;
+
+  
+  function validateContact(value) {
+    const emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneReg = /^09\d{9}$/;
+    return emailReg.test(value) || phoneReg.test(value);
+  }
+
+  function showErrorInInput(input, message) {
+    clearErrorInInput(input);
+    input.classList.add('error');
+    let error = document.createElement('div');
+    error.className = 'error-message';
+    error.innerHTML = '<i class="fas fa-exclamation-triangle"></i> ' + message;
+    input.parentNode.appendChild(error);
+  }
+  function clearErrorInInput(input) {
+    input.classList.remove('error');
+    let em = input.parentNode.querySelector('.error-message');
+    if(em) em.remove();
+  }
+
+  forgotForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    let value = contactInput.value.trim();
+    clearErrorInInput(contactInput);
+
+    if (!validateContact(value)) {
+      showErrorInInput(contactInput, 'ایمیل یا شماره موبایل معتبر وارد کنید');
+      contactInput.focus();
+      return;
+    }
+
+    
+    
+    code = '123456'; 
+    step1.style.display = 'none';
+    step2.style.display = '';
+    startTimer();
+  });
+
+  resetCodeInput.addEventListener('input', function () {
+    this.value = this.value.replace(/\D/g, '').slice(0,6);
+    clearErrorInInput(this);
+  });
+
+  codeVerifyBtn.addEventListener('click', function () {
+    clearErrorInInput(resetCodeInput);
+    if (!resetCodeInput.value || resetCodeInput.value.length < 6) {
+      showErrorInInput(resetCodeInput, 'کد ۶ رقمی را به درستی وارد کنید');
+      return;
+    }
+    if (resetCodeInput.value === code) {
+      alert('کد تأیید صحیح است!\nمی‌توانید به مرحله انتخاب رمز جدید بروید.');
+      
+    } else {
+      showErrorInInput(resetCodeInput, 'کد صحت‌سنجی اشتباه است');
+      resetCodeInput.focus();
+    }
+  });
+
+  function startTimer() {
+    countdown = 60;
+    resendTimer.style.display = '';
+    resendBtn.style.display = 'none';
+    timerValue.textContent = countdown;
+    if(timer) clearInterval(timer);
+    timer = setInterval(() => {
+      countdown--;
+      timerValue.textContent = countdown;
+      if (countdown <= 0) {
+        clearInterval(timer);
+        resendTimer.style.display = 'none';
+        resendBtn.style.display = '';
+      }
+    }, 1000);
+  }
+
+  resendBtn.addEventListener('click', function () {
+    
+    code = '123456';
+    startTimer();
+    alert('کد تأیید مجدداً ارسال شد!');
+  });
+
+  contactInput.addEventListener('input', function(){
+    clearErrorInInput(this);
+  });
+  </script>
+</body>
+</html>
